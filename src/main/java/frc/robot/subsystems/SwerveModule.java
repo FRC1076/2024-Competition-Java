@@ -19,18 +19,12 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
 import frc.robot.Constants.DriveConstants;
-//import edu.wpi.first.wpilibj.Encoder;
 import frc.robot.Constants.ModuleConstants;
-//import edu.wpi.first.wpilibj.motorcontrol.Spark;
 
 public class SwerveModule {
-  //private final Spark m_driveMotor;
-  //private final Spark m_turningMotor;
   private final CANSparkMax m_driveMotor;
   private final CANSparkMax m_turningMotor;
 
-  //private final Encoder m_driveEncoder;
-  //private final Encoder m_turningEncoder;
   private final RelativeEncoder m_driveEncoder;
   private final CANCoder m_turningEncoder;
 
@@ -70,31 +64,20 @@ public class SwerveModule {
 
     m_turningEncoder = new CANCoder(turningEncoderChannel);
 
-    // Set the distance per pulse for the drive encoder. We can simply use the
-    // distance traveled for one rotation of the wheel divided by the encoder
-    // resolution.
+    // Set the distance per rotation for the drive encoder.
     m_driveEncoder.setPositionConversionFactor(ModuleConstants.kDriveEncoderDistancePerRotation);
-    // m_driveEncoder.setDistancePerPulse(ModuleConstants.kDriveEncoderDistancePerPulse);
 
     // Set whether drive encoder should be reversed or not
     m_driveEncoder.setInverted(driveEncoderReversed);
 
-    //Apply the configuration to the cancoder
+    // This configuration includes offset, if the cancoder is reversed, and the pulse to rotation conversion
     CANCoderConfiguration config = new CANCoderConfiguration();
     config.sensorCoefficient = ModuleConstants.kTurningEncoderDistancePerPulse;
     config.unitString = "rad";
     config.sensorDirection = turningEncoderReversed;
     config.magnetOffsetDegrees = Units.radiansToDegrees(turningEncoderOffset);
-
+    // Apply the configuration to the cancoder
     m_turningEncoder.configAllSettings(config);
-
-    // Set the distance (in this case, angle) in radians per pulse for the turning encoder.
-    // This is the the angle through an entire rotation (2 * pi) divided by the
-    // encoder resolution.
-    //m_turningEncoder.setDistancePerPulse(ModuleConstants.kTurningEncoderDistancePerPulse);
-
-    // Set whether turning encoder should be reversed or not
-    //m_turningEncoder.setReverseDirection(turningEncoderReversed);
 
     // Limit the PID Controller's input range between -pi and pi and set the input
     // to be continuous.

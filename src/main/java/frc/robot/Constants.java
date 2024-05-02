@@ -30,13 +30,6 @@ public final class Constants {
     public static final int kRearLeftTurningMotorPort = 14;
     public static final int kRearRightTurningMotorPort = 13;
 
-    /*
-    public static final int[] kFrontLeftTurningEncoderPorts = new int[] {0, 1};
-    public static final int[] kRearLeftTurningEncoderPorts = new int[] {2, 3};
-    public static final int[] kFrontRightTurningEncoderPorts = new int[] {4, 5};
-    public static final int[] kRearRightTurningEncoderPorts = new int[] {6, 7};
-    */
-
     public static final int kFrontLeftTurningEncoderPort = 21;
     public static final int kFrontRightTurningEncoderPort = 22;
     public static final int kRearLeftTurningEncoderPort = 24;
@@ -46,13 +39,6 @@ public final class Constants {
     public static final boolean kFrontRightTurningEncoderReversed = false;
     public static final boolean kRearLeftTurningEncoderReversed = false;
     public static final boolean kRearRightTurningEncoderReversed = false;
-
-    /*
-    public static final int[] kFrontLeftDriveEncoderPorts = new int[] {8, 9};
-    public static final int[] kRearLeftDriveEncoderPorts = new int[] {10, 11};
-    public static final int[] kFrontRightDriveEncoderPorts = new int[] {12, 13};
-    public static final int[] kRearRightDriveEncoderPorts = new int[] {14, 15};
-    */
 
     public static final boolean kFrontLeftDriveEncoderReversed = false;
     public static final boolean kFrontRightDriveEncoderReversed = false;
@@ -100,12 +86,6 @@ public final class Constants {
     public static final int kEncoderCPR = 4096;
     public static final double kWheelDiameterMeters = 0.1016; // Four Inch Wheels
     public static final double kDriveRatio = 6.75; // The ratio of a L2 SDS MK4 Module is 6.75 : 1
-
-    /*
-    public static final double kDriveEncoderDistancePerPulse =
-        // Assumes the encoders are directly mounted on the wheel shafts
-        (kWheelDiameterMeters * Math.PI) / (double) kEncoderCPR;
-    */
 
     // Also accounts for the gear ratio of the Swerve Module, L2 as of writing
     public static final double kDriveEncoderDistancePerRotation = 
