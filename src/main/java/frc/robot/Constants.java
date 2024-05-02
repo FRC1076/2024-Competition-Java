@@ -8,6 +8,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.math.util.Units;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -57,6 +58,12 @@ public final class Constants {
     public static final boolean kFrontRightDriveEncoderReversed = false;
     public static final boolean kRearLeftDriveEncoderReversed = false;
     public static final boolean kRearRightDriveEncoderReversed = false;
+
+    // Units Should Be Radians
+    public static final double kFrontLeftTurningEncoderOffset = Units.degreesToRadians(0);
+    public static final double kFrontRightTurningEncoderOffset = Units.degreesToRadians(0);
+    public static final double kRearLeftTurningEncoderOffset = Units.degreesToRadians(0);
+    public static final double kRearRightTurningEncoderOffset = Units.degreesToRadians(0);
 
     // If you call DriveSubsystem.drive() with a different period make sure to update this.
     public static final double kDrivePeriod = TimedRobot.kDefaultPeriod;

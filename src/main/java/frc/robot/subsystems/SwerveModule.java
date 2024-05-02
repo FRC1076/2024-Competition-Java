@@ -17,6 +17,8 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import edu.wpi.first.math.util.Units;
+import frc.robot.Constants.DriveConstants;
 //import edu.wpi.first.wpilibj.Encoder;
 import frc.robot.Constants.ModuleConstants;
 //import edu.wpi.first.wpilibj.motorcontrol.Spark;
@@ -59,7 +61,8 @@ public class SwerveModule {
      int turningMotorChannel,
      int turningEncoderChannel,
      boolean driveEncoderReversed,
-     boolean turningEncoderReversed) {
+     boolean turningEncoderReversed,
+     double turningEncoderOffset) {
     m_driveMotor = new CANSparkMax(driveMotorChannel, MotorType.kBrushless);
     m_turningMotor = new CANSparkMax(turningMotorChannel, MotorType.kBrushless);
 
@@ -81,6 +84,7 @@ public class SwerveModule {
     config.sensorCoefficient = ModuleConstants.kTurningEncoderDistancePerPulse;
     config.unitString = "rad";
     config.sensorDirection = turningEncoderReversed;
+    config.magnetOffsetDegrees = Units.radiansToDegrees(turningEncoderOffset);
 
     m_turningEncoder.configAllSettings(config);
 
@@ -133,9 +137,17 @@ public class SwerveModule {
     // driving.
     state.speedMetersPerSecond *= state.angle.minus(encoderRotation).getCos();
 
-    // Calculate the drive output from the drive PID controller.
-    final double driveOutput =
-        m_drivePIDController.calculate(m_driveEncoder.getVelocity(), state.speedMetersPerSecond);
+    final double driveOutput;
+    if(!isOpenLoop){
+      // Calculate the drive output from the drive PID controller.
+      driveOutput =
+          m_drivePIDController.calculate(m_driveEncoder.getVelocity(), state.speedMetersPerSecond);
+    }
+    else{
+      // Divide the drive output by the max speed to scale it from -1 to 1
+      driveOutput =
+          state.speedMetersPerSecond / DriveConstants.kMaxSpeedMetersPerSecond;
+    }
 
     // Calculate the turning motor output from the turning PID controller.
     final double turnOutput =
