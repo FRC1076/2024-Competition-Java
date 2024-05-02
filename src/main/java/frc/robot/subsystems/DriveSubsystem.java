@@ -54,7 +54,6 @@ public class DriveSubsystem extends SubsystemBase {
           DriveConstants.kRearRightTurningEncoderOffset);
 
   // The gyro sensor
-  //private final ADXRS450_Gyro m_gyro = new ADXRS450_Gyro();
   private final AHRS m_gyro = new AHRS();
 
   // Odometry class for tracking robot pose
