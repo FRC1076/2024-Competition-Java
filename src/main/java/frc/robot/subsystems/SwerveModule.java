@@ -149,7 +149,7 @@ public class SwerveModule {
   /** Zeroes all the SwerveModule encoders. */
   public void resetEncoders() {
     m_driveEncoder.setPosition(0);
-    // no need to rezero a 
+    // no need to rezero an absolute encoder
     // m_turningEncoder.reset();
   }
 }

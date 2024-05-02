@@ -19,15 +19,15 @@ import edu.wpi.first.wpilibj.TimedRobot;
  */
 public final class Constants {
   public static final class DriveConstants {
-    public static final int kFrontLeftDriveMotorPort = 0;
-    public static final int kRearLeftDriveMotorPort = 2;
-    public static final int kFrontRightDriveMotorPort = 4;
-    public static final int kRearRightDriveMotorPort = 6;
+    public static final int kFrontLeftDriveMotorPort = 1;
+    public static final int kFrontRightDriveMotorPort = 2;
+    public static final int kRearLeftDriveMotorPort = 4;
+    public static final int kRearRightDriveMotorPort = 3;
 
-    public static final int kFrontLeftTurningMotorPort = 1;
-    public static final int kRearLeftTurningMotorPort = 3;
-    public static final int kFrontRightTurningMotorPort = 5;
-    public static final int kRearRightTurningMotorPort = 7;
+    public static final int kFrontLeftTurningMotorPort = 11;
+    public static final int kFrontRightTurningMotorPort = 12;
+    public static final int kRearLeftTurningMotorPort = 14;
+    public static final int kRearRightTurningMotorPort = 13;
 
     /*
     public static final int[] kFrontLeftTurningEncoderPorts = new int[] {0, 1};
@@ -36,15 +36,15 @@ public final class Constants {
     public static final int[] kRearRightTurningEncoderPorts = new int[] {6, 7};
     */
 
-    public static final int kFrontLeftTurningEncoderPort = 0;
-    public static final int kRearLeftTurningEncoderPort = 2;
-    public static final int kFrontRightTurningEncoderPort = 4;
-    public static final int kRearRightTurningEncoderPort = 6;
+    public static final int kFrontLeftTurningEncoderPort = 21;
+    public static final int kFrontRightTurningEncoderPort = 22;
+    public static final int kRearLeftTurningEncoderPort = 24;
+    public static final int kRearRightTurningEncoderPort = 23;
 
     public static final boolean kFrontLeftTurningEncoderReversed = false;
-    public static final boolean kRearLeftTurningEncoderReversed = true;
     public static final boolean kFrontRightTurningEncoderReversed = false;
-    public static final boolean kRearRightTurningEncoderReversed = true;
+    public static final boolean kRearLeftTurningEncoderReversed = false;
+    public static final boolean kRearRightTurningEncoderReversed = false;
 
     /*
     public static final int[] kFrontLeftDriveEncoderPorts = new int[] {8, 9};
@@ -54,23 +54,24 @@ public final class Constants {
     */
 
     public static final boolean kFrontLeftDriveEncoderReversed = false;
-    public static final boolean kRearLeftDriveEncoderReversed = true;
     public static final boolean kFrontRightDriveEncoderReversed = false;
-    public static final boolean kRearRightDriveEncoderReversed = true;
+    public static final boolean kRearLeftDriveEncoderReversed = false;
+    public static final boolean kRearRightDriveEncoderReversed = false;
 
     // If you call DriveSubsystem.drive() with a different period make sure to update this.
     public static final double kDrivePeriod = TimedRobot.kDefaultPeriod;
 
-    public static final double kTrackWidth = 0.762;
     // Distance between centers of right and left wheels on robot
-    public static final double kWheelBase = 0.762;
+    public static final double kTrackWidth = 0.762;
     // Distance between front and back wheels on robot
+    public static final double kWheelBase = 0.762;
+
     public static final SwerveDriveKinematics kDriveKinematics =
         new SwerveDriveKinematics(
-            new Translation2d(kWheelBase / 2, kTrackWidth / 2),
-            new Translation2d(kWheelBase / 2, -kTrackWidth / 2),
-            new Translation2d(-kWheelBase / 2, kTrackWidth / 2),
-            new Translation2d(-kWheelBase / 2, -kTrackWidth / 2));
+            new Translation2d(kWheelBase / 2, kTrackWidth / 2), // Front Left Module
+            new Translation2d(kWheelBase / 2, -kTrackWidth / 2), // Front Right Module
+            new Translation2d(-kWheelBase / 2, kTrackWidth / 2), // Rear Left Module
+            new Translation2d(-kWheelBase / 2, -kTrackWidth / 2)); //Rear Right Module
 
     public static final boolean kGyroReversed = false;
 
