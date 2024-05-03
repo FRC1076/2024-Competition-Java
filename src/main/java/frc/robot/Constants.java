@@ -9,7 +9,6 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.math.util.Units;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -98,7 +97,7 @@ public final class Constants {
         (2 * Math.PI) / (double) kEncoderCPR;
     
 
-    public static final double kPModuleTurningController = 1;
+    public static final double kPModuleTurningController = 0.4;
 
     public static final double kPModuleDriveController = 1;
   }
