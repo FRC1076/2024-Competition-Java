@@ -17,7 +17,6 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
-import edu.wpi.first.math.util.Units;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.ModuleConstants;
 
@@ -56,7 +55,7 @@ public class SwerveModule {
      int turningEncoderChannel,
      boolean driveEncoderReversed,
      boolean turningEncoderReversed,
-     double turningEncoderOffset) {
+     Rotation2d turningEncoderOffset) {
     m_driveMotor = new CANSparkMax(driveMotorChannel, MotorType.kBrushless);
     m_turningMotor = new CANSparkMax(turningMotorChannel, MotorType.kBrushless);
 
@@ -75,7 +74,7 @@ public class SwerveModule {
     config.sensorCoefficient = ModuleConstants.kTurningEncoderDistancePerPulse;
     config.unitString = "rad";
     config.sensorDirection = turningEncoderReversed;
-    config.magnetOffsetDegrees = Units.radiansToDegrees(turningEncoderOffset);
+    config.magnetOffsetDegrees = turningEncoderOffset.getDegrees();
     // Apply the configuration to the cancoder
     m_turningEncoder.configAllSettings(config);
 

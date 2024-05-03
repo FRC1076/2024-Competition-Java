@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
@@ -46,10 +47,10 @@ public final class Constants {
     public static final boolean kRearRightDriveEncoderReversed = false;
 
     // Units Should Be Radians
-    public static final double kFrontLeftTurningEncoderOffset = Units.degreesToRadians(0);
-    public static final double kFrontRightTurningEncoderOffset = Units.degreesToRadians(0);
-    public static final double kRearLeftTurningEncoderOffset = Units.degreesToRadians(0);
-    public static final double kRearRightTurningEncoderOffset = Units.degreesToRadians(0);
+    public static final Rotation2d kFrontLeftTurningEncoderOffset = Rotation2d.fromDegrees(0);
+    public static final Rotation2d kFrontRightTurningEncoderOffset = Rotation2d.fromDegrees(0);
+    public static final Rotation2d kRearLeftTurningEncoderOffset = Rotation2d.fromDegrees(0);
+    public static final Rotation2d kRearRightTurningEncoderOffset = Rotation2d.fromDegrees(0);
 
     // If you call DriveSubsystem.drive() with a different period make sure to update this.
     public static final double kDrivePeriod = TimedRobot.kDefaultPeriod;
