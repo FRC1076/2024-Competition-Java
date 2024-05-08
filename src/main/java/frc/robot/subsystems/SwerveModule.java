@@ -67,7 +67,7 @@ public class SwerveModule {
     m_driveEncoder.setPositionConversionFactor(ModuleConstants.kDriveEncoderDistancePerRotation);
 
     // Set whether drive encoder should be reversed or not
-    m_driveEncoder.setInverted(driveEncoderReversed);
+    //m_driveEncoder.setInverted(driveEncoderReversed);
 
     // This configuration includes offset, if the cancoder is reversed, and the pulse to rotation conversion
     CANCoderConfiguration config = new CANCoderConfiguration();
