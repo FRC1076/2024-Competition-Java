@@ -45,7 +45,6 @@ public final class Constants {
     public static final boolean kRearLeftDriveEncoderReversed = false;
     public static final boolean kRearRightDriveEncoderReversed = false;
 
-    // Units Should Be Radians
     public static final Rotation2d kFrontLeftTurningEncoderOffset = Rotation2d.fromDegrees(-282.1);
     public static final Rotation2d kFrontRightTurningEncoderOffset = Rotation2d.fromDegrees(-61.2);
     public static final Rotation2d kRearLeftTurningEncoderOffset = Rotation2d.fromDegrees(-54.1);
