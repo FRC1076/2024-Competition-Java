@@ -38,7 +38,7 @@ public final class Constants {
     public static final boolean kFrontLeftTurningEncoderReversed = false;
     public static final boolean kFrontRightTurningEncoderReversed = false;
     public static final boolean kRearLeftTurningEncoderReversed = false;
-    public static final boolean kRearRightTurningEncoderReversed = false;
+    public static final boolean kRearRightTurningEncoderReversed = true;
 
     public static final boolean kFrontLeftDriveEncoderReversed = false;
     public static final boolean kFrontRightDriveEncoderReversed = false;
@@ -46,10 +46,10 @@ public final class Constants {
     public static final boolean kRearRightDriveEncoderReversed = false;
 
     // Units Should Be Radians
-    public static final Rotation2d kFrontLeftTurningEncoderOffset = Rotation2d.fromDegrees(0);
-    public static final Rotation2d kFrontRightTurningEncoderOffset = Rotation2d.fromDegrees(0);
-    public static final Rotation2d kRearLeftTurningEncoderOffset = Rotation2d.fromDegrees(0);
-    public static final Rotation2d kRearRightTurningEncoderOffset = Rotation2d.fromDegrees(0);
+    public static final Rotation2d kFrontLeftTurningEncoderOffset = Rotation2d.fromDegrees(-282.1);
+    public static final Rotation2d kFrontRightTurningEncoderOffset = Rotation2d.fromDegrees(-61.2);
+    public static final Rotation2d kRearLeftTurningEncoderOffset = Rotation2d.fromDegrees(-54.1);
+    public static final Rotation2d kRearRightTurningEncoderOffset = Rotation2d.fromDegrees(-287.2);
 
     // If you call DriveSubsystem.drive() with a different period make sure to update this.
     public static final double kDrivePeriod = TimedRobot.kDefaultPeriod;

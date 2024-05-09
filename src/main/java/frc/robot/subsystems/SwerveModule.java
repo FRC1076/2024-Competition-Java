@@ -90,7 +90,7 @@ public class SwerveModule {
    */
   public SwerveModuleState getState() {
     return new SwerveModuleState(
-        m_driveEncoder.getVelocity(), new Rotation2d(m_turningEncoder.getPosition()));
+        m_driveEncoder.getVelocity(), new Rotation2d(m_turningEncoder.getAbsolutePosition()));
   }
 
   /**
@@ -100,7 +100,7 @@ public class SwerveModule {
    */
   public SwerveModulePosition getPosition() {
     return new SwerveModulePosition(
-        m_driveEncoder.getPosition(), new Rotation2d(m_turningEncoder.getPosition()));
+        m_driveEncoder.getPosition(), new Rotation2d(m_turningEncoder.getAbsolutePosition()));
   }
 
   /**
@@ -109,7 +109,7 @@ public class SwerveModule {
    * @param desiredState Desired state with speed and angle.
    */
   public void setDesiredState(SwerveModuleState desiredState, boolean isOpenLoop) {
-    var encoderRotation = new Rotation2d(m_turningEncoder.getPosition());
+    var encoderRotation = new Rotation2d(m_turningEncoder.getAbsolutePosition());
 
     // Optimize the reference state to avoid spinning further than 90 degrees
     SwerveModuleState state = SwerveModuleState.optimize(desiredState, encoderRotation);
@@ -133,7 +133,7 @@ public class SwerveModule {
 
     // Calculate the turning motor output from the turning PID controller.
     final double turnOutput =
-        m_turningPIDController.calculate(m_turningEncoder.getPosition(), state.angle.getRadians());
+        m_turningPIDController.calculate(m_turningEncoder.getAbsolutePosition(), state.angle.getRadians());
 
     // Calculate the turning motor output from the turning PID controller.
     m_driveMotor.set(driveOutput);
