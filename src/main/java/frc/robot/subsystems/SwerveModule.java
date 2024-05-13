@@ -55,6 +55,7 @@ public class SwerveModule {
      int turningEncoderChannel,
      boolean driveEncoderReversed,
      boolean turningEncoderReversed,
+     boolean turningMotorReversed,
      Rotation2d turningEncoderOffset) {
     m_driveMotor = new CANSparkMax(driveMotorChannel, MotorType.kBrushless);
     m_turningMotor = new CANSparkMax(turningMotorChannel, MotorType.kBrushless);
@@ -68,6 +69,9 @@ public class SwerveModule {
 
     // Set whether drive encoder should be reversed or not
     //m_driveEncoder.setInverted(driveEncoderReversed);
+    m_driveMotor.setInverted(driveEncoderReversed);
+
+    m_turningMotor.setInverted(turningMotorReversed);
 
     // This configuration includes offset, if the cancoder is reversed, and the pulse to rotation conversion
     CANCoderConfiguration config = new CANCoderConfiguration();

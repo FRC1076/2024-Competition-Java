@@ -24,6 +24,7 @@ public class DriveSubsystem extends SubsystemBase {
           DriveConstants.kFrontLeftTurningEncoderPort,
           DriveConstants.kFrontLeftDriveEncoderReversed,
           DriveConstants.kFrontLeftTurningEncoderReversed,
+          DriveConstants.kFrontLeftTurningMotorReversed,
           DriveConstants.kFrontLeftTurningEncoderOffset);
   
   private final SwerveModule m_frontRight =
@@ -33,6 +34,7 @@ public class DriveSubsystem extends SubsystemBase {
           DriveConstants.kFrontRightTurningEncoderPort,
           DriveConstants.kFrontRightDriveEncoderReversed,
           DriveConstants.kFrontRightTurningEncoderReversed,
+          DriveConstants.kFrontRightTurningMotorReversed,
           DriveConstants.kFrontRightTurningEncoderOffset);
 
   private final SwerveModule m_rearLeft =
@@ -42,6 +44,7 @@ public class DriveSubsystem extends SubsystemBase {
           DriveConstants.kRearLeftTurningEncoderPort,
           DriveConstants.kRearLeftDriveEncoderReversed,
           DriveConstants.kRearLeftTurningEncoderReversed,
+          DriveConstants.kRearLeftTurningMotorReversed,
           DriveConstants.kRearLeftTurningEncoderOffset);
 
   private final SwerveModule m_rearRight =
@@ -51,11 +54,11 @@ public class DriveSubsystem extends SubsystemBase {
           DriveConstants.kRearRightTurningEncoderPort,
           DriveConstants.kRearRightDriveEncoderReversed,
           DriveConstants.kRearRightTurningEncoderReversed,
+          DriveConstants.kRearRightTurningMotorReversed,
           DriveConstants.kRearRightTurningEncoderOffset);
 
   // The gyro sensor
   private final AHRS m_gyro = new AHRS();
-
   // Odometry class for tracking robot pose
   SwerveDriveOdometry m_odometry =
       new SwerveDriveOdometry(

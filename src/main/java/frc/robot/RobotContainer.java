@@ -12,6 +12,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
@@ -41,6 +42,9 @@ public class RobotContainer {
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+    // Zero the heaeding of the robot at the beginning for field relative drive
+    m_robotDrive.zeroHeading();
+
     // Configure the button bindings
     configureButtonBindings();
 
@@ -54,11 +58,13 @@ public class RobotContainer {
                     // Multiply by max speed to map the joystick unitless inputs to actual units.
                     // This will map the [-1, 1] to [max speed backwards, max speed forwards],
                     // converting them to actual units.
-                    m_driverController.getLeftY() * DriveConstants.kMaxSpeedMetersPerSecond,
-                    m_driverController.getLeftX() * DriveConstants.kMaxSpeedMetersPerSecond,
-                    m_driverController.getRightX()
+                    MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriverControllerDeadband) 
+                        * DriveConstants.kMaxSpeedMetersPerSecond,
+                    MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriverControllerDeadband) 
+                        * DriveConstants.kMaxSpeedMetersPerSecond,
+                    MathUtil.applyDeadband(m_driverController.getRightX(), OIConstants.kDriverControllerDeadband)
                         * ModuleConstants.kMaxModuleAngularSpeedRadiansPerSecond,
-                    false),
+                    true),
             m_robotDrive));
   }
 

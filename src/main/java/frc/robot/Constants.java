@@ -8,6 +8,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.TimedRobot;
 
 /**
@@ -38,25 +39,30 @@ public final class Constants {
     public static final boolean kFrontLeftTurningEncoderReversed = false;
     public static final boolean kFrontRightTurningEncoderReversed = false;
     public static final boolean kRearLeftTurningEncoderReversed = false;
-    public static final boolean kRearRightTurningEncoderReversed = true;
+    public static final boolean kRearRightTurningEncoderReversed = false;
 
     public static final boolean kFrontLeftDriveEncoderReversed = false;
     public static final boolean kFrontRightDriveEncoderReversed = false;
     public static final boolean kRearLeftDriveEncoderReversed = false;
     public static final boolean kRearRightDriveEncoderReversed = false;
 
-    public static final Rotation2d kFrontLeftTurningEncoderOffset = Rotation2d.fromDegrees(-282.1);
-    public static final Rotation2d kFrontRightTurningEncoderOffset = Rotation2d.fromDegrees(-61.2);
+    public static final boolean kFrontLeftTurningMotorReversed = false;
+    public static final boolean kFrontRightTurningMotorReversed = false;
+    public static final boolean kRearLeftTurningMotorReversed = false;
+    public static final boolean kRearRightTurningMotorReversed = false;
+
+    public static final Rotation2d kFrontLeftTurningEncoderOffset = Rotation2d.fromDegrees(-102.1);
+    public static final Rotation2d kFrontRightTurningEncoderOffset = Rotation2d.fromDegrees(-241.2);
     public static final Rotation2d kRearLeftTurningEncoderOffset = Rotation2d.fromDegrees(-54.1);
-    public static final Rotation2d kRearRightTurningEncoderOffset = Rotation2d.fromDegrees(-287.2);
+    public static final Rotation2d kRearRightTurningEncoderOffset = Rotation2d.fromDegrees(-66.5); //-316.2
 
     // If you call DriveSubsystem.drive() with a different period make sure to update this.
     public static final double kDrivePeriod = TimedRobot.kDefaultPeriod;
 
     // Distance between centers of right and left wheels on robot
-    public static final double kTrackWidth = 0.762;
+    public static final double kTrackWidth = Units.inchesToMeters(19.5);
     // Distance between front and back wheels on robot
-    public static final double kWheelBase = 0.762;
+    public static final double kWheelBase = Units.inchesToMeters(27.5);
 
     public static final SwerveDriveKinematics kDriveKinematics =
         new SwerveDriveKinematics(
@@ -96,13 +102,14 @@ public final class Constants {
         (2 * Math.PI) / (double) kEncoderCPR;
     
 
-    public static final double kPModuleTurningController = 0.4;
+    public static final double kPModuleTurningController = 0.6;
 
     public static final double kPModuleDriveController = 1;
   }
 
   public static final class OIConstants {
     public static final int kDriverControllerPort = 0;
+    public static final double kDriverControllerDeadband = 0.1;
   }
 
   public static final class AutoConstants {
