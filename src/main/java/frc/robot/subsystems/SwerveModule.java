@@ -68,6 +68,7 @@ public class SwerveModule {
 
     // Set the distance per rotation for the drive encoder.
     m_driveEncoder.setPositionConversionFactor(ModuleConstants.kDriveEncoderDistancePerRotation);
+    m_driveEncoder.setVelocityConversionFactor(ModuleConstants.kDriveEncoderDistancePerRotation);
 
     // Set whether drive encoder should be reversed or not
     //m_driveEncoder.setInverted(driveEncoderReversed);

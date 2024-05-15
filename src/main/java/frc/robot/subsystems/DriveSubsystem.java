@@ -5,6 +5,10 @@
 package frc.robot.subsystems;
 
 import com.kauailabs.navx.frc.AHRS;
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
+import com.pathplanner.lib.util.PIDConstants;
+import com.pathplanner.lib.util.ReplanningConfig;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -72,7 +76,25 @@ public class DriveSubsystem extends SubsystemBase {
           });
 
   /** Creates a new DriveSubsystem. */
-  public DriveSubsystem() {}
+  public DriveSubsystem() {
+    
+    // Configure the AutoBuilder last
+    AutoBuilder.configureHolonomic(
+        this::getPose, // Robot pose supplier
+        this::resetPose, // Method to reset odometry (will be called if your auto has a starting pose)
+        this::getChassisSpeeds, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
+        this::drive, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds
+        new HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should likely live in your Constants class
+            new PIDConstants(5.0, 0.0, 0.0), // Translation PID constants
+            new PIDConstants(5.0, 0.0, 0.0), // Rotation PID constants
+            4.5, // Max module speed, in m/s
+            0.4, // Drive base radius in meters. Distance from robot center to furthest module.
+            new ReplanningConfig() // Default path replanning config. See the API for the options here
+        ),
+        () -> {return false;}, // Whether or not the paths should be flipped for being on other teams
+        this // Reference to this subsystem to set requirements
+    );
+  }
 
   @Override
   public void periodic() {
@@ -101,7 +123,7 @@ public class DriveSubsystem extends SubsystemBase {
    *
    * @param pose The pose to which to set the odometry.
    */
-  public void resetOdometry(Pose2d pose) {
+  public void resetPose(Pose2d pose) {
     m_odometry.resetPosition(
         m_gyro.getRotation2d(),
         new SwerveModulePosition[] {
@@ -136,6 +158,37 @@ public class DriveSubsystem extends SubsystemBase {
     m_frontRight.setDesiredState(swerveModuleStates[1], true);
     m_rearLeft.setDesiredState(swerveModuleStates[2], true);
     m_rearRight.setDesiredState(swerveModuleStates[3], true);
+  }
+
+  /**
+   * Method to drive the robot using robot relative chassis speeds
+   *
+   * @param chassisSpeeds Robot relative chassis speeds
+   */
+  public void drive(ChassisSpeeds chassisSpeeds) {
+    var swerveModuleStates =
+        DriveConstants.kDriveKinematics.toSwerveModuleStates(
+            ChassisSpeeds.discretize(chassisSpeeds, DriveConstants.kDrivePeriod));
+    SwerveDriveKinematics.desaturateWheelSpeeds(
+        swerveModuleStates, DriveConstants.kMaxSpeedMetersPerSecond);
+    m_frontLeft.setDesiredState(swerveModuleStates[0], true);
+    m_frontRight.setDesiredState(swerveModuleStates[1], true);
+    m_rearLeft.setDesiredState(swerveModuleStates[2], true);
+    m_rearRight.setDesiredState(swerveModuleStates[3], true);
+  }
+
+  /**
+   * Method that gets the robot relative chassis speeds
+   * 
+   */
+  public ChassisSpeeds getChassisSpeeds(){
+    return DriveConstants.kDriveKinematics.toChassisSpeeds(
+      new SwerveModuleState[]{
+        m_frontLeft.getState(),
+        m_frontRight.getState(),
+        m_rearLeft.getState(),
+        m_rearRight.getState(),
+      });
   }
 
   /**
