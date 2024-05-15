@@ -17,6 +17,7 @@ import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import frc.robot.Constants.DriveConstants;
+import frc.robot.Constants.AutoConstants;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class DriveSubsystem extends SubsystemBase {
@@ -77,7 +78,7 @@ public class DriveSubsystem extends SubsystemBase {
 
   /** Creates a new DriveSubsystem. */
   public DriveSubsystem() {
-    
+
     // Configure the AutoBuilder last
     AutoBuilder.configureHolonomic(
         this::getPose, // Robot pose supplier
@@ -85,10 +86,12 @@ public class DriveSubsystem extends SubsystemBase {
         this::getChassisSpeeds, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
         this::drive, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds
         new HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should likely live in your Constants class
-            new PIDConstants(5.0, 0.0, 0.0), // Translation PID constants
-            new PIDConstants(5.0, 0.0, 0.0), // Rotation PID constants
-            4.5, // Max module speed, in m/s
-            0.4, // Drive base radius in meters. Distance from robot center to furthest module.
+            new PIDConstants(AutoConstants.kPTranslationController, 0.0, 0.0), // Translation PID constants
+            new PIDConstants(AutoConstants.kPRotationController, 0.0, 0.0), // Rotation PID constants
+            AutoConstants.kMaxSpeedMetersPerSecond, // Max module speed, in m/s
+            Math.sqrt(
+              Math.pow(DriveConstants.kWheelBase, 2) + 
+              Math.pow(DriveConstants.kTrackWidth, 2)), // Drive base radius in meters. Distance from robot center to furthest module.
             new ReplanningConfig() // Default path replanning config. See the API for the options here
         ),
         () -> {return false;}, // Whether or not the paths should be flipped for being on other teams
