@@ -31,7 +31,8 @@ public class SwerveModule {
       new PIDController(ModuleConstants.kPModuleDriveController, 0, 0);
 
   // Using a TrapezoidProfile PIDController to allow for smooth turning
-  private final ProfiledPIDController m_turningPIDController =
+  private final PIDController m_turningPIDController = new PIDController(ModuleConstants.kPModuleTurningController, 0, 0);
+  /*
       new ProfiledPIDController(
           ModuleConstants.kPModuleTurningController,
           0,
@@ -39,6 +40,7 @@ public class SwerveModule {
           new TrapezoidProfile.Constraints(
               ModuleConstants.kMaxModuleAngularSpeedRadiansPerSecond,
               ModuleConstants.kMaxModuleAngularAccelerationRadiansPerSecondSquared));
+  */
 
   /**
    * Constructs a SwerveModule.

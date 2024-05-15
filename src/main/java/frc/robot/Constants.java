@@ -102,7 +102,7 @@ public final class Constants {
         (2 * Math.PI) / (double) kEncoderCPR;
     
 
-    public static final double kPModuleTurningController = 0.6;
+    public static final double kPModuleTurningController = 0.4;
 
     public static final double kPModuleDriveController = 1;
   }
