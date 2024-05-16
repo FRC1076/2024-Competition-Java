@@ -90,9 +90,9 @@ public class DriveSubsystem extends SubsystemBase {
             new PIDConstants(AutoConstants.kPRotationController, 0.0, 0.0), // Rotation PID constants
             AutoConstants.kMaxSpeedMetersPerSecond, // Max module speed, in m/s
             Math.sqrt(
-              Math.pow(DriveConstants.kWheelBase, 2) + 
-              Math.pow(DriveConstants.kTrackWidth, 2)), // Drive base radius in meters. Distance from robot center to furthest module.
-            new ReplanningConfig() // Default path replanning config. See the API for the options here
+              Math.pow(DriveConstants.kWheelBase / 2, 2) + 
+              Math.pow(DriveConstants.kTrackWidth / 2, 2)), // Drive base radius in meters. Distance from robot center to furthest module.
+            new ReplanningConfig(false, false) // Default path replanning config. See the API for the options here
         ),
         () -> {return false;}, // Whether or not the paths should be flipped for being on other teams
         this // Reference to this subsystem to set requirements
