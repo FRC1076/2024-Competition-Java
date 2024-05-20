@@ -18,6 +18,7 @@ import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
@@ -29,6 +30,7 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import java.util.List;
 
@@ -43,10 +45,14 @@ public class RobotContainer {
   private final DriveSubsystem m_robotDrive = new DriveSubsystem();
 
   // The auto selected from a dashboard
-  private SendableChooser<Command> autoChooser;
+  private SendableChooser<Command> m_autoChooser;
+
+  // The field with the robot location
+  private Field2d m_Field2d = new Field2d();
 
   // The driver's controller
-  XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
+  //XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
+  CommandXboxController m_driverController= new CommandXboxController(OIConstants.kDriverControllerPort);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -71,14 +77,18 @@ public class RobotContainer {
                     MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriverControllerDeadband) 
                         * DriveConstants.kMaxSpeedMetersPerSecond,
                     MathUtil.applyDeadband(m_driverController.getRightX(), OIConstants.kDriverControllerDeadband)
-                        * ModuleConstants.kMaxModuleAngularSpeedRadiansPerSecond,
+                        * DriveConstants.kMaxRotationalSpeedRadiansPerSecond,
                     true),
             m_robotDrive));
     
     // Build an auto chooser. This will use Commands.none() as the default option.
-    autoChooser = AutoBuilder.buildAutoChooser();
+    m_autoChooser = AutoBuilder.buildAutoChooser();
     // Place the sendable chooser data onto the dashboard
-    SmartDashboard.putData("Auto Chooser", autoChooser);
+    SmartDashboard.putData("Auto Chooser", m_autoChooser);
+
+    // Place the robots location onto the field
+    m_Field2d.setRobotPose(m_robotDrive.getPose());
+    SmartDashboard.putData("Robot Position", m_Field2d);
   }
 
   /**
@@ -87,7 +97,14 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then calling passing it to a
    * {@link JoystickButton}.
    */
-  private void configureButtonBindings() {}
+  private void configureButtonBindings() {
+
+    //Zero Gyro (x + left trigger + right trigger)
+    m_driverController.x()
+      .and(m_driverController.leftTrigger(OIConstants.kDriverControllerTriggerThreshold))
+      .and(m_driverController.rightTrigger(OIConstants.kDriverControllerTriggerThreshold))
+      .onTrue(new InstantCommand(() -> m_robotDrive.zeroHeading(), m_robotDrive));
+  }
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
@@ -95,6 +112,11 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return autoChooser.getSelected();
+    return m_autoChooser.getSelected();
+  }
+
+  //This is for updating all elastic info, and is called in robotPeriodic in Robot.java
+  public void updateInterface(){
+    m_Field2d.setRobotPose(m_robotDrive.getPose());
   }
 }

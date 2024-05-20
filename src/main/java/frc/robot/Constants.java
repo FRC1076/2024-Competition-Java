@@ -82,11 +82,12 @@ public final class Constants {
     public static final double kaVoltSecondsSquaredPerMeter = 0.15;
 
     public static final double kMaxSpeedMetersPerSecond = 3;
+    public static final double kMaxRotationalSpeedRadiansPerSecond = 2 * Math.PI;
   }
 
   public static final class ModuleConstants {
-    public static final double kMaxModuleAngularSpeedRadiansPerSecond = 14 * Math.PI;
-    public static final double kMaxModuleAngularAccelerationRadiansPerSecondSquared = 14 * Math.PI;
+    public static final double kMaxModuleAngularSpeedRadiansPerSecond = 20 * Math.PI;
+    public static final double kMaxModuleAngularAccelerationRadiansPerSecondSquared = 20 * Math.PI;
 
     public static final int kEncoderCPR = 4096;
     public static final double kWheelDiameterMeters = 0.1016; // Four Inch Wheels
@@ -94,7 +95,7 @@ public final class Constants {
 
     // Also accounts for the gear ratio of the Swerve Module, L2 as of writing
     public static final double kDriveEncoderDistancePerRotation = 
-        (kWheelDiameterMeters * Math.PI) / kDriveRatio;
+        -(kWheelDiameterMeters * Math.PI) / kDriveRatio;
 
     
     public static final double kTurningEncoderDistancePerPulse =
@@ -110,11 +111,12 @@ public final class Constants {
   public static final class OIConstants {
     public static final int kDriverControllerPort = 0;
     public static final double kDriverControllerDeadband = 0.1;
+    public static final double kDriverControllerTriggerThreshold = 0.7;
   }
 
   public static final class AutoConstants {
     public static final double kMaxSpeedMetersPerSecond = 4.5;
-    public static final double kPTranslationController = 1;
-    public static final double kPRotationController = 1;
+    public static final double kPTranslationController = 5;
+    public static final double kPRotationController = 5;
   }
 }
