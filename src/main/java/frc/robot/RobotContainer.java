@@ -25,6 +25,7 @@ import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.ModuleConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.commands.drivetrain.JoystickDrive;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -63,23 +64,13 @@ public class RobotContainer {
     configureButtonBindings();
 
     // Configure default commands
-    m_robotDrive.setDefaultCommand(
-        // The left stick controls translation of the robot.
+    // The left stick controls translation of the robot.
         // Turning is controlled by the X axis of the right stick.
-        new RunCommand(
-            () ->
-                m_robotDrive.drive(
-                    // Multiply by max speed to map the joystick unitless inputs to actual units.
-                    // This will map the [-1, 1] to [max speed backwards, max speed forwards],
-                    // converting them to actual units.
-                    MathUtil.applyDeadband(-m_driverController.getLeftY(), OIConstants.kDriverControllerDeadband) 
-                        * DriveConstants.kMaxSpeedMetersPerSecond,
-                    MathUtil.applyDeadband(-m_driverController.getLeftX(), OIConstants.kDriverControllerDeadband) 
-                        * DriveConstants.kMaxSpeedMetersPerSecond,
-                    MathUtil.applyDeadband(-m_driverController.getRightX(), OIConstants.kDriverControllerDeadband)
-                        * DriveConstants.kMaxRotationalSpeedRadiansPerSecond,
-                    true),
-            m_robotDrive));
+    m_robotDrive.setDefaultCommand(new JoystickDrive(
+        () -> MathUtil.applyDeadband(-m_driverController.getLeftY(), OIConstants.kDriverControllerDeadband),
+        () -> MathUtil.applyDeadband(-m_driverController.getLeftX(), OIConstants.kDriverControllerDeadband),
+        () -> MathUtil.applyDeadband(-m_driverController.getRightX(), OIConstants.kDriverControllerDeadband),
+        m_robotDrive));
     
     // Build an auto chooser. This will use Commands.none() as the default option.
     m_autoChooser = AutoBuilder.buildAutoChooser();
@@ -98,6 +89,24 @@ public class RobotContainer {
    * {@link JoystickButton}.
    */
   private void configureButtonBindings() {
+
+    // Apply slow-down for swerve drive
+    // Double Clutch
+    m_driverController.leftBumper().whileTrue(
+      new JoystickDrive(
+        () -> MathUtil.applyDeadband(-m_driverController.getLeftY(), OIConstants.kDriverControllerDeadband) * DriveConstants.kDoubleClutchTranslation,
+        () -> MathUtil.applyDeadband(-m_driverController.getLeftX(), OIConstants.kDriverControllerDeadband) * DriveConstants.kDoubleClutchTranslation,
+        () -> MathUtil.applyDeadband(-m_driverController.getRightX(), OIConstants.kDriverControllerDeadband) * DriveConstants.kDoubleClutchRotation,
+        m_robotDrive)
+    );
+    // Single Clutch
+    m_driverController.rightBumper().whileTrue(
+      new JoystickDrive(
+        () -> MathUtil.applyDeadband(-m_driverController.getLeftY(), OIConstants.kDriverControllerDeadband) * DriveConstants.kSingleClutchTranslation,
+        () -> MathUtil.applyDeadband(-m_driverController.getLeftX(), OIConstants.kDriverControllerDeadband) * DriveConstants.kSingleClutchTranslation,
+        () -> MathUtil.applyDeadband(-m_driverController.getRightX(), OIConstants.kDriverControllerDeadband) * DriveConstants.kSingleClutchRotation,
+        m_robotDrive)
+    );
 
     //Zero Gyro (x + left trigger + right trigger)
     m_driverController.x()

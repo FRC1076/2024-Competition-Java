@@ -83,6 +83,11 @@ public final class Constants {
 
     public static final double kMaxSpeedMetersPerSecond = 3;
     public static final double kMaxRotationalSpeedRadiansPerSecond = 2 * Math.PI;
+
+    public static final double kDoubleClutchTranslation = 0.3;
+    public static final double kDoubleClutchRotation = 0.35;
+    public static final double kSingleClutchTranslation = 0.5;
+    public static final double kSingleClutchRotation = 0.5;
   }
 
   public static final class ModuleConstants {
