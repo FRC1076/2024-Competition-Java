@@ -115,7 +115,7 @@ public class SwerveModule {
    *
    * @param desiredState Desired state with speed and angle.
    */
-  public void setDesiredState(SwerveModuleState desiredState, boolean isOpenLoop) {
+  public void setDesiredState(SwerveModuleState desiredState, boolean useOpenLoop) {
     var encoderRotation = new Rotation2d(m_turningEncoder.getAbsolutePosition());
 
     // Optimize the reference state to avoid spinning further than 90 degrees
@@ -127,7 +127,7 @@ public class SwerveModule {
     state.speedMetersPerSecond *= state.angle.minus(encoderRotation).getCos();
 
     final double driveOutput;
-    if(!isOpenLoop){
+    if(!useOpenLoop){
       // Calculate the drive output from the drive PID controller.
       driveOutput =
           m_drivePIDController.calculate(m_driveEncoder.getVelocity(), state.speedMetersPerSecond);

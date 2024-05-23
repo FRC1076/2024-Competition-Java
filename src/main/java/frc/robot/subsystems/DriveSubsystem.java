@@ -199,13 +199,13 @@ public class DriveSubsystem extends SubsystemBase {
    *
    * @param desiredStates The desired SwerveModule states.
    */
-  public void setModuleStates(SwerveModuleState[] desiredStates) {
+  public void setModuleStates(SwerveModuleState[] desiredStates, boolean useOpenloop) {
     SwerveDriveKinematics.desaturateWheelSpeeds(
         desiredStates, DriveConstants.kMaxSpeedMetersPerSecond);
-    m_frontLeft.setDesiredState(desiredStates[0], true);
-    m_frontRight.setDesiredState(desiredStates[1], true);
-    m_rearLeft.setDesiredState(desiredStates[2], true);
-    m_rearRight.setDesiredState(desiredStates[3], true);
+    m_frontLeft.setDesiredState(desiredStates[0], useOpenloop);
+    m_frontRight.setDesiredState(desiredStates[1], useOpenloop);
+    m_rearLeft.setDesiredState(desiredStates[2], useOpenloop);
+    m_rearRight.setDesiredState(desiredStates[3], useOpenloop);
   }
 
   public SwerveModuleState[] getModuleStates(){
