@@ -116,7 +116,7 @@ public class SwerveModule {
    * @param desiredState Desired state with speed and angle.
    */
   public void setDesiredState(SwerveModuleState desiredState, boolean useOpenLoop) {
-    var encoderRotation = new Rotation2d(m_turningEncoder.getAbsolutePosition());
+    Rotation2d encoderRotation = new Rotation2d(m_turningEncoder.getAbsolutePosition());
 
     // Optimize the reference state to avoid spinning further than 90 degrees
     SwerveModuleState state = SwerveModuleState.optimize(desiredState, encoderRotation);

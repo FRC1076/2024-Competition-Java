@@ -147,7 +147,7 @@ public class DriveSubsystem extends SubsystemBase {
    * @param fieldRelative Whether the provided x and y speeds are relative to the field.
    */
   public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative) {
-    var swerveModuleStates =
+    SwerveModuleState[] swerveModuleStates =
         DriveConstants.kDriveKinematics.toSwerveModuleStates(
             ChassisSpeeds.discretize(
                 fieldRelative
@@ -169,7 +169,7 @@ public class DriveSubsystem extends SubsystemBase {
    * @param chassisSpeeds Robot relative chassis speeds
    */
   public void drive(ChassisSpeeds chassisSpeeds) {
-    var swerveModuleStates =
+    SwerveModuleState[] swerveModuleStates =
         DriveConstants.kDriveKinematics.toSwerveModuleStates(
             ChassisSpeeds.discretize(chassisSpeeds, DriveConstants.kDrivePeriod));
     SwerveDriveKinematics.desaturateWheelSpeeds(
