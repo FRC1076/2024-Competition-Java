@@ -73,14 +73,6 @@ public final class Constants {
 
     public static final boolean kGyroReversed = false;
 
-    // These are example values only - DO NOT USE THESE FOR YOUR OWN ROBOT!
-    // These characterization values MUST be determined either experimentally or theoretically
-    // for *your* robot's drive.
-    // The SysId tool provides a convenient method for obtaining these values for your robot.
-    public static final double ksVolts = 1;
-    public static final double kvVoltSecondsPerMeter = 0.8;
-    public static final double kaVoltSecondsSquaredPerMeter = 0.15;
-
     public static final double kMaxSpeedMetersPerSecond = 3;
     public static final double kMaxRotationalSpeedRadiansPerSecond = 2 * Math.PI;
 
@@ -99,8 +91,12 @@ public final class Constants {
     public static final double kDriveRatio = 6.75; // The ratio of a L2 SDS MK4 Module is 6.75 : 1
 
     // Also accounts for the gear ratio of the Swerve Module, L2 as of writing
-    public static final double kDriveEncoderDistancePerRotation = 
+    //Convert rotation to meters
+    public static final double kDriveEncoderPositionConversionFactor = 
         (kWheelDiameterMeters * Math.PI) / kDriveRatio;
+    //Convert RPM to m/s
+    public static final double kDriveEncoderVelocityConversionFactor =
+        (kWheelDiameterMeters * Math.PI) / (kDriveRatio * 60);
 
     
     public static final double kTurningEncoderDistancePerPulse =
@@ -109,8 +105,14 @@ public final class Constants {
     
 
     public static final double kPModuleTurningController = 0.4;
+    
+    public static final double kPModuleDriveController = 0;
+    public static final double kIModuleDriveController = 0;
+    public static final double kDModuleDriveController = 0;
 
-    public static final double kPModuleDriveController = 1;
+    public static final double ksDriveVolts = 0.667;
+    public static final double kvDriveVoltSecondsPerMeter = 2.44;
+    public static final double kaDriveVoltSecondsSquaredPerMeter = 0;
   }
 
   public static final class OIConstants {

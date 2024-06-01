@@ -157,10 +157,10 @@ public class DriveSubsystem extends SubsystemBase {
                 DriveConstants.kDrivePeriod));
     SwerveDriveKinematics.desaturateWheelSpeeds(
         swerveModuleStates, DriveConstants.kMaxSpeedMetersPerSecond);
-    m_frontLeft.setDesiredState(swerveModuleStates[0], true);
-    m_frontRight.setDesiredState(swerveModuleStates[1], true);
-    m_rearLeft.setDesiredState(swerveModuleStates[2], true);
-    m_rearRight.setDesiredState(swerveModuleStates[3], true);
+    m_frontLeft.setDesiredState(swerveModuleStates[0], false);
+    m_frontRight.setDesiredState(swerveModuleStates[1], false);
+    m_rearLeft.setDesiredState(swerveModuleStates[2], false);
+    m_rearRight.setDesiredState(swerveModuleStates[3], false);
   }
 
   /**
