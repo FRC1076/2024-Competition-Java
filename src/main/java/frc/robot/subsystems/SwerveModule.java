@@ -147,7 +147,6 @@ public class SwerveModule {
         0,
         m_driveFFController.calculate(state.speedMetersPerSecond),
         ArbFFUnits.kVoltage);
-        System.out.println("Expected " + state.speedMetersPerSecond + "Actual " + m_driveEncoder.getVelocity());
     }
     else{
       // Divide the drive output by the max speed to scale it from -1 to 1 and make it open loop

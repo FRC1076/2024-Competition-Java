@@ -96,7 +96,7 @@ public final class Constants {
         (kWheelDiameterMeters * Math.PI) / kDriveRatio;
     //Convert RPM to m/s
     public static final double kDriveEncoderVelocityConversionFactor =
-        (kWheelDiameterMeters * Math.PI) / (kDriveRatio * 60);
+        kDriveEncoderPositionConversionFactor / 60;
 
     
     public static final double kTurningEncoderDistancePerPulse =
@@ -110,14 +110,14 @@ public final class Constants {
     public static final double kIModuleDriveController = 0;
     public static final double kDModuleDriveController = 0;
 
-    public static final double ksDriveVolts = 0.667;
-    public static final double kvDriveVoltSecondsPerMeter = 2.44;
+    public static final double ksDriveVolts = 0;
+    public static final double kvDriveVoltSecondsPerMeter = 2.78;
     public static final double kaDriveVoltSecondsSquaredPerMeter = 0;
   }
 
   public static final class OIConstants {
     public static final int kDriverControllerPort = 0;
-    public static final double kDriverControllerDeadband = 0.1;
+    public static final double kDriverControllerDeadband = 0.15;
     public static final double kDriverControllerTriggerThreshold = 0.7;
   }
 
