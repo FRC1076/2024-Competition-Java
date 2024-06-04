@@ -84,7 +84,7 @@ public class DriveSubsystem extends SubsystemBase {
         this::getPose, // Robot pose supplier
         this::resetPose, // Method to reset odometry (will be called if your auto has a starting pose)
         this::getChassisSpeeds, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
-        this::drive, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds
+        (ChassisSpeeds chassisSpeeds) -> drive(chassisSpeeds, false), // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds
         new HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should likely live in your Constants class
             new PIDConstants(AutoConstants.kPTranslationController, 0.0, 0.0), // Translation PID constants
             new PIDConstants(AutoConstants.kPRotationController, 0.0, 0.0), // Rotation PID constants
@@ -146,7 +146,7 @@ public class DriveSubsystem extends SubsystemBase {
    * @param rot Angular rate of the robot.
    * @param fieldRelative Whether the provided x and y speeds are relative to the field.
    */
-  public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative) {
+  public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative, boolean useOpenLoop) {
     SwerveModuleState[] swerveModuleStates =
         DriveConstants.kDriveKinematics.toSwerveModuleStates(
             ChassisSpeeds.discretize(
@@ -157,10 +157,10 @@ public class DriveSubsystem extends SubsystemBase {
                 DriveConstants.kDrivePeriod));
     SwerveDriveKinematics.desaturateWheelSpeeds(
         swerveModuleStates, DriveConstants.kMaxSpeedMetersPerSecond);
-    m_frontLeft.setDesiredState(swerveModuleStates[0], false);
-    m_frontRight.setDesiredState(swerveModuleStates[1], false);
-    m_rearLeft.setDesiredState(swerveModuleStates[2], false);
-    m_rearRight.setDesiredState(swerveModuleStates[3], false);
+    m_frontLeft.setDesiredState(swerveModuleStates[0], useOpenLoop);
+    m_frontRight.setDesiredState(swerveModuleStates[1], useOpenLoop);
+    m_rearLeft.setDesiredState(swerveModuleStates[2], useOpenLoop);
+    m_rearRight.setDesiredState(swerveModuleStates[3], useOpenLoop);
   }
 
   /**
@@ -168,16 +168,16 @@ public class DriveSubsystem extends SubsystemBase {
    *
    * @param chassisSpeeds Robot relative chassis speeds
    */
-  public void drive(ChassisSpeeds chassisSpeeds) {
+  public void drive(ChassisSpeeds chassisSpeeds, boolean useOpenLoop) {
     SwerveModuleState[] swerveModuleStates =
         DriveConstants.kDriveKinematics.toSwerveModuleStates(
             ChassisSpeeds.discretize(chassisSpeeds, DriveConstants.kDrivePeriod));
     SwerveDriveKinematics.desaturateWheelSpeeds(
         swerveModuleStates, DriveConstants.kMaxSpeedMetersPerSecond);
-    m_frontLeft.setDesiredState(swerveModuleStates[0], true);
-    m_frontRight.setDesiredState(swerveModuleStates[1], true);
-    m_rearLeft.setDesiredState(swerveModuleStates[2], true);
-    m_rearRight.setDesiredState(swerveModuleStates[3], true);
+    m_frontLeft.setDesiredState(swerveModuleStates[0], useOpenLoop);
+    m_frontRight.setDesiredState(swerveModuleStates[1], useOpenLoop);
+    m_rearLeft.setDesiredState(swerveModuleStates[2], useOpenLoop);
+    m_rearRight.setDesiredState(swerveModuleStates[3], useOpenLoop);
   }
 
   /**

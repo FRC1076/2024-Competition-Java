@@ -51,6 +51,7 @@ public class JoystickDrive extends Command {
             fwd.getAsDouble() * DriveConstants.kMaxSpeedMetersPerSecond,
             strafe.getAsDouble()  * DriveConstants.kMaxSpeedMetersPerSecond,
             rot.getAsDouble()  * DriveConstants.kMaxRotationalSpeedRadiansPerSecond,
+            true,
             true
         );
     }
