@@ -1,15 +1,16 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 
-public class Vision {
+public class Vision extends SubsystemBase{
 
     public String limeString;
     private double tx, ty, ta;
-    private int apriltags;
+    private int aprilTags;
     private int retroReflective;
     private double minTargetAspectRationReflective, maxTargetAspectRationReflective;
     private double minTargetAspectRationAprilTag, maxTargetAspectRationAprilTag;
@@ -24,6 +25,7 @@ public class Vision {
 
     public Vision() {this.limeString = defaultLimeString;}
     
+    @Override
     public void periodic(){
         NetworkTable table = NetworkTableInstance.getDefault().getTable(this.limeString);
         tx = table.getEntry("tx").getDouble(0);
@@ -40,15 +42,17 @@ public class Vision {
         return NetworkTableInstance.getDefault().getTable(limeString).getEntry("botpose").getDoubleArray(new double[6]);
     }
 
-    public double getTx(){
+    public double getTargetX(){
         return tx;
     }
 
-    public double getTy(){
+    public double getTargetY(){
         return ty;
     }
 
-    public double getTa(){
+    public double getTargetArea(){
         return ta;
     }
+
+
 }
