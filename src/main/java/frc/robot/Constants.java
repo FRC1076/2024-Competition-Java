@@ -126,4 +126,9 @@ public final class Constants {
     public static final double kPTranslationController = 5;
     public static final double kPRotationController = 5;
   }
+  public static final class armConstants {
+    public static final double controllerGain = 0.03;
+    public static final double feedforwardgain=0.0275;
+    
+  }
 }
