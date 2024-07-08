@@ -1,4 +1,5 @@
 package frc.robot.subsystems;
+
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
@@ -12,8 +13,10 @@ public class Arm extends SubsystemBase {
     private final SparkPIDController sprocketLeftPIDController;
     private final SparkPIDController sprocketRightPIDController;
     private final RelativeEncoder sprocketLeftEncoder;
-    private final RelativeEncoder sprocketRightEncoder;     //DECLARATION
+    private final RelativeEncoder sprocketRightEncoder;     //Initialize
     ArmFeedforward sprocketFeedforward = new ArmFeedforward(0, 0.0275, 0);
+    PIDController pidController = new PIDController(Constants.armConstants.controllerGain, 0, 0);
+    
     public Arm() {
         sprocketLeftMotor = new CANSparkMax(6, CANSparkMax.MotorType.kBrushless);
         sprocketRightMotor = new CANSparkMax(7, CANSparkMax.MotorType.kBrushless);
@@ -22,8 +25,7 @@ public class Arm extends SubsystemBase {
         sprocketLeftPIDController = sprocketLeftMotor.getPIDController();
         sprocketRightPIDController = sprocketRightMotor.getPIDController();
         sprocketLeftPIDController.setP(Constants.armConstants.controllerGain);
-        sprocketRightPIDController.setP(Constants.armConstants.controllerGain); //INITIALIATION
-        
+        sprocketRightPIDController.setP(Constants.armConstants.controllerGain); //declare
         
     }
     public void setSprocketSpeed(double speed) {
@@ -45,13 +47,15 @@ public class Arm extends SubsystemBase {
         sprocketRightMotor.set(1);
     }
     public boolean sprocketToPosition(double targetPos){
-        double SprocketPIDCalculations = sprocketLeftPIDController.calculate(getsprocketAngle(), targetPos);
+        double SprocketPIDCalculations = pidController.calculate(getsprocketAngle(), targetPos);
         double feedforwardcalculation = sprocketFeedforward.calculate(Math.toRadians(getsprocketAngle()),0.0);
-        if(targetPos <= -30)
+        if(targetPos <= -30){
             SprocketPIDCalculations /= 2;
-        sprocketLeftMotor.set(SprocketPIDCalculations + feedforwardcalculation);
-        sprocketLeftPIDController.setFF(feedforwardcalculation);
-        sprocketRightPIDController.setFF(-feedforwardcalculation);
+    }
+            double output = SprocketPIDCalculations + feedforwardcalculation;
+            sprocketLeftMotor.set(output);
+            sprocketRightMotor.set(output);
+    
         sprocketLimitStop();
         return Math.abs(targetPos - getsprocketAngle()) < 1;
     }
