@@ -51,10 +51,10 @@ public final class Constants {
     public static final boolean kRearLeftTurningMotorReversed = false;
     public static final boolean kRearRightTurningMotorReversed = false;
 
-    public static final Rotation2d kFrontLeftTurningEncoderOffset = Rotation2d.fromDegrees(77.9);
-    public static final Rotation2d kFrontRightTurningEncoderOffset = Rotation2d.fromDegrees(-61.2);
-    public static final Rotation2d kRearLeftTurningEncoderOffset = Rotation2d.fromDegrees(125.9);
-    public static final Rotation2d kRearRightTurningEncoderOffset = Rotation2d.fromDegrees(113.5); //-316.2
+    public static final Rotation2d kFrontLeftTurningEncoderOffset = Rotation2d.fromRadians(-2.093+Math.PI);
+    public static final Rotation2d kFrontRightTurningEncoderOffset = Rotation2d.fromRadians(-1.898);
+    public static final Rotation2d kRearLeftTurningEncoderOffset = Rotation2d.fromRadians(-4.769);
+    public static final Rotation2d kRearRightTurningEncoderOffset = Rotation2d.fromRadians(-5.309);
 
     // If you call DriveSubsystem.drive() with a different period make sure to update this.
     public static final double kDrivePeriod = TimedRobot.kDefaultPeriod;
