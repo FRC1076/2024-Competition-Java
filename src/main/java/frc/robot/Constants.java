@@ -119,6 +119,10 @@ public final class Constants {
     public static final int kDriverControllerPort = 0;
     public static final double kDriverControllerDeadband = 0.15;
     public static final double kDriverControllerTriggerThreshold = 0.7;
+
+    public static final int kOperatorControllerPort = 1;
+    public static final double kOperatorControllerDeadband = 0.15;
+    public static final double kOperatorControllerTriggerThreshold = 0.7;
   }
 
   public static final class AutoConstants {
