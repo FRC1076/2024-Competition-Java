@@ -32,7 +32,7 @@ public class Arm extends SubsystemBase {
         sprocketAbsoluteEncoder = new DutyCycleEncoder(0);
     }
     public void setSprocketSpeed(double speed) {
-        sprocketLeftMotor.set(speed);
+        sprocketLeftMotor.set(-speed);
         sprocketRightMotor.set(speed);
     }
     public double getsprocketAngle() {
