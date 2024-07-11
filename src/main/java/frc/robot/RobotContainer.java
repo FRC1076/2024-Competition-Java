@@ -77,7 +77,7 @@ public class RobotContainer {
         m_robotDrive));
     
    m_arm.setDefaultCommand(new RunCommand(() -> m_arm.setSprocketSpeed(
-    MathUtil.applyDeadband(-m_driverController.getLeftY() / 10, OIConstants.kOperatorControllerDeadband)
+    MathUtil.applyDeadband(-m_operatorController.getLeftY() / 3, OIConstants.kOperatorControllerDeadband)
    ), m_arm));
     SmartDashboard.putNumber("Sprocket angle", m_arm.getsprocketAngle());
     // Build an auto chooser. This will use Commands.none() as the default option.
