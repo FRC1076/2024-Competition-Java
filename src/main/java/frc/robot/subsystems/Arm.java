@@ -54,10 +54,10 @@ public class Arm extends SubsystemBase {
         double feedforwardcalculation = sprocketFeedforward.calculate(Math.toRadians(getsprocketAngle()),0.0);
         if(targetPos <= -30){
             SprocketPIDCalculations /= 2;
-    }
-            double output = SprocketPIDCalculations + feedforwardcalculation;
-            sprocketLeftMotor.set(output);
-            sprocketRightMotor.set(output);
+        }
+        double output = SprocketPIDCalculations + feedforwardcalculation;
+        sprocketLeftMotor.set(-output);
+        sprocketRightMotor.set(output);
     
         sprocketLimitStop();
         return Math.abs(targetPos - getsprocketAngle()) < 1;
