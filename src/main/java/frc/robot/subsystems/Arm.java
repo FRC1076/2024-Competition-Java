@@ -32,8 +32,9 @@ public class Arm extends SubsystemBase {
         sprocketAbsoluteEncoder = new DutyCycleEncoder(0);
     }
     public void setSprocketSpeed(double speed) {
-        sprocketLeftMotor.set(-speed);
-        sprocketRightMotor.set(speed);
+        double feedforwardcalculation = sprocketFeedforward.calculate(Math.toRadians(getsprocketAngle()),0.0);
+        sprocketLeftMotor.set(-(speed+feedforwardcalculation));
+        sprocketRightMotor.set(speed+feedforwardcalculation);
     }
     public double getsprocketAngle() {
         return (sprocketAbsoluteEncoder.getAbsolutePosition() * 360 + 20)  % 360 - 49.1;
@@ -49,6 +50,7 @@ public class Arm extends SubsystemBase {
         sprocketLeftMotor.set(1);
         sprocketRightMotor.set(1);
     }
+
     public boolean sprocketToPosition(double targetPos){
         double SprocketPIDCalculations = pidController.calculate(getsprocketAngle(), targetPos);
         double feedforwardcalculation = sprocketFeedforward.calculate(Math.toRadians(getsprocketAngle()),0.0);
@@ -62,11 +64,18 @@ public class Arm extends SubsystemBase {
         sprocketLimitStop();
         return Math.abs(targetPos - getsprocketAngle()) < 1;
     }
+
+    public void stopSprocket(){
+        double sprocketFeedforwardcalculation = sprocketFeedforward.calculate(Math.toRadians(getsprocketAngle()),0);
+        sprocketLeftMotor.set(-sprocketFeedforwardcalculation);
+        sprocketRightMotor.set(sprocketFeedforwardcalculation);
+    }
+
     public void sprocketLimitStop(){
         if (getsprocketAngle()>90){
-            sprocketLeftMotor.stopMotor();
-            sprocketRightMotor.stopMotor();
+            stopSprocket();
         }
     }
+    
 
 }
