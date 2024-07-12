@@ -11,17 +11,25 @@ public class IntakeSys extends SubsystemBase {
      * 
      * <p>ExampleSys contains the basic framework of a robot subsystem for use in command-based programming.
      */
+
     public IntakeSys() {
-        // Initialize and configure actuators and sensors here
+        //which constants are we using
+        //how to create motor on java
     
     }
 
     // This method will be called once per scheduler run
     @Override
     public void periodic() {
-        
+        //is this needed for intake?
     }
 
-    // Put methods for controlling this subsystem here. Call these from Commands.
+    public void intake() {
+        //spin motor positive
+    }
+
+    public void eject() {
+        //spin motor negative
+    }
 
 }
