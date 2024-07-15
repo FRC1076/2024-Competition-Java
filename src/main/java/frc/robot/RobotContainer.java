@@ -79,7 +79,7 @@ public class RobotContainer {
    m_arm.setDefaultCommand(new RunCommand(() -> m_arm.setSprocketSpeed(
     MathUtil.applyDeadband(-m_operatorController.getLeftY() / 3, OIConstants.kOperatorControllerDeadband)
    ), m_arm));
-    SmartDashboard.putNumber("Sprocket angle", m_arm.getsprocketAngle());
+    System.out.println(m_arm.getsprocketAngle());
     // Build an auto chooser. This will use Commands.none() as the default option.
     m_autoChooser = AutoBuilder.buildAutoChooser();
     // Place the sendable chooser data onto the dashboard
@@ -115,6 +115,9 @@ public class RobotContainer {
         () -> MathUtil.applyDeadband(-m_driverController.getRightX(), OIConstants.kDriverControllerDeadband) * DriveConstants.kSingleClutchRotation,
         m_robotDrive)
     );
+
+
+    
 
     //Zero Gyro (x + left trigger + right trigger)
     m_driverController.x()
