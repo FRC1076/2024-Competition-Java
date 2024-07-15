@@ -21,6 +21,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
  */
 public final class Constants {
   public static final class DriveConstants {
+    public final static int PigeonID = 9;
     public static final int kFrontLeftDriveMotorPort = 1;
     public static final int kFrontRightDriveMotorPort = 2;
     public static final int kRearLeftDriveMotorPort = 4;
