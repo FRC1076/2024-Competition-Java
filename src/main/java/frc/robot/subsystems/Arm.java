@@ -23,6 +23,7 @@ public class Arm extends SubsystemBase {
     public Arm() {
         sprocketLeftMotor = new CANSparkMax(6, CANSparkMax.MotorType.kBrushless);
         sprocketRightMotor = new CANSparkMax(7, CANSparkMax.MotorType.kBrushless);
+        sprocketRightMotor.setInverted(true);
         sprocketLeftEncoder = sprocketLeftMotor.getEncoder();
         sprocketRightEncoder = sprocketRightMotor.getEncoder();
         sprocketLeftPIDController = sprocketLeftMotor.getPIDController();
@@ -33,8 +34,12 @@ public class Arm extends SubsystemBase {
     }
     public void setSprocketSpeed(double speed) {
         double feedforwardcalculation = sprocketFeedforward.calculate(Math.toRadians(getsprocketAngle()),0.0);
-        sprocketLeftMotor.set(-(speed+feedforwardcalculation));
+        sprocketLeftMotor.set(speed+feedforwardcalculation);
         sprocketRightMotor.set(speed+feedforwardcalculation);
+        if(speed>0){
+        sprocketLimitStop();
+        }
+
     }
     public double getsprocketAngle() {
         return (sprocketAbsoluteEncoder.getAbsolutePosition() * 360 + 20)  % 360 - 49.1;
@@ -51,18 +56,18 @@ public class Arm extends SubsystemBase {
         sprocketRightMotor.set(1);
     }
 
-    public boolean sprocketToPosition(double targetPos){
+    public void sprocketToPosition(double targetPos){
         double SprocketPIDCalculations = pidController.calculate(getsprocketAngle(), targetPos);
         double feedforwardcalculation = sprocketFeedforward.calculate(Math.toRadians(getsprocketAngle()),0.0);
         if(targetPos <= -30){
             SprocketPIDCalculations /= 2;
         }
         double output = SprocketPIDCalculations + feedforwardcalculation;
-        sprocketLeftMotor.set(-output);
+        sprocketLeftMotor.set(output);
         sprocketRightMotor.set(output);
     
         sprocketLimitStop();
-        return Math.abs(targetPos - getsprocketAngle()) < 1;
+        
     }
 
     public void stopSprocket(){
@@ -75,6 +80,7 @@ public class Arm extends SubsystemBase {
         if (getsprocketAngle()>90){
             stopSprocket();
         }
+
     }
     
 

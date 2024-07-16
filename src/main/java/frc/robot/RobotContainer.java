@@ -79,7 +79,12 @@ public class RobotContainer {
    m_arm.setDefaultCommand(new RunCommand(() -> m_arm.setSprocketSpeed(
     MathUtil.applyDeadband(-m_operatorController.getLeftY() / 3, OIConstants.kOperatorControllerDeadband)
    ), m_arm));
-    System.out.println(m_arm.getsprocketAngle());
+   //Buttoms to preset positions
+  
+  m_operatorController.a().whileTrue(new RunCommand(()->m_arm.sprocketToPosition(-23)));
+  m_operatorController.y().whileTrue(new RunCommand(()->m_arm.sprocketToPosition(80)));
+  m_operatorController.x().whileTrue(new RunCommand(()->m_arm.sprocketToPosition(0)));
+ 
     // Build an auto chooser. This will use Commands.none() as the default option.
     m_autoChooser = AutoBuilder.buildAutoChooser();
     // Place the sendable chooser data onto the dashboard
