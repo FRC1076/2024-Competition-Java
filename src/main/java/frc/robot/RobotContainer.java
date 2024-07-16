@@ -23,9 +23,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.ModuleConstants;
+import frc.robot.Constants.IntakeConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.Arm;
+import frc.robot.subsystems.Intake;
 import frc.robot.commands.drivetrain.JoystickDrive;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -47,6 +49,8 @@ public class RobotContainer {
   private final DriveSubsystem m_robotDrive = new DriveSubsystem();
 
   private final Arm m_arm = new Arm();
+  
+  private final Intake m_intake = new Intake();
 
   // The auto selected from a dashboard
   private SendableChooser<Command> m_autoChooser;
@@ -56,7 +60,7 @@ public class RobotContainer {
 
   // The driver's controller
   //XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
-  CommandXboxController m_driverController= new CommandXboxController(OIConstants.kDriverControllerPort);
+  CommandXboxController m_driverController = new CommandXboxController(OIConstants.kDriverControllerPort);
   CommandXboxController m_operatorController = new CommandXboxController(OIConstants.kOperatorControllerPort);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -79,7 +83,7 @@ public class RobotContainer {
    m_arm.setDefaultCommand(new RunCommand(() -> m_arm.setSprocketSpeed(
     MathUtil.applyDeadband(-m_operatorController.getLeftY() / 3, OIConstants.kOperatorControllerDeadband)
    ), m_arm));
-    SmartDashboard.putNumber("Sprocket angle", m_arm.getsprocketAngle());
+    System.out.println(m_arm.getsprocketAngle());
     // Build an auto chooser. This will use Commands.none() as the default option.
     m_autoChooser = AutoBuilder.buildAutoChooser();
     // Place the sendable chooser data onto the dashboard
@@ -121,6 +125,20 @@ public class RobotContainer {
       .and(m_driverController.leftTrigger(OIConstants.kDriverControllerTriggerThreshold))
       .and(m_driverController.rightTrigger(OIConstants.kDriverControllerTriggerThreshold))
       .onTrue(new InstantCommand(() -> m_robotDrive.zeroHeading(), m_robotDrive));
+
+    //Intake Turn On
+    m_operatorController.leftTrigger(OIConstants.kOperatorControllerTriggerThreshold).onTrue(
+      new InstantCommand(
+        () -> m_intake.setMotorSpeed(IntakeConstants.kIntakeMotorSpeed)
+      )
+    );
+
+    //Intake Turn Off
+    m_operatorController.leftTrigger(OIConstants.kOperatorControllerTriggerThreshold).onFalse(
+      new InstantCommand(
+        () -> m_intake.setMotorSpeed(0)
+      )
+    );
   }
 
   /**
