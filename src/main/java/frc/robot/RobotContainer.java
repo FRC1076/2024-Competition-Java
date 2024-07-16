@@ -79,8 +79,8 @@ public class RobotContainer {
    m_arm.setDefaultCommand(new RunCommand(() -> m_arm.setSprocketSpeed(
     MathUtil.applyDeadband(-m_operatorController.getLeftY() / 3, OIConstants.kOperatorControllerDeadband)
    ), m_arm));
-   //Buttoms to preset positions
-  
+   //Buttons to preset positions
+    
   m_operatorController.a().whileTrue(new RunCommand(()->m_arm.sprocketToPosition(-23)));
   m_operatorController.y().whileTrue(new RunCommand(()->m_arm.sprocketToPosition(80)));
   m_operatorController.x().whileTrue(new RunCommand(()->m_arm.sprocketToPosition(0)));
