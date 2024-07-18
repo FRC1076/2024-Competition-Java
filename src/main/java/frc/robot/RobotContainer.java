@@ -126,19 +126,17 @@ public class RobotContainer {
       .and(m_driverController.rightTrigger(OIConstants.kDriverControllerTriggerThreshold))
       .onTrue(new InstantCommand(() -> m_robotDrive.zeroHeading(), m_robotDrive));
 
-    //Intake Turn On
+    //Intake Control
     m_operatorController.leftTrigger(OIConstants.kOperatorControllerTriggerThreshold).onTrue(
       new InstantCommand(
         () -> m_intake.setMotorSpeed(IntakeConstants.kIntakeMotorSpeed)
       )
-    );
-
-    //Intake Turn Off
-    m_operatorController.leftTrigger(OIConstants.kOperatorControllerTriggerThreshold).onFalse(
+    ).onFalse(
       new InstantCommand(
         () -> m_intake.setMotorSpeed(0)
       )
     );
+    
   }
 
   /**
