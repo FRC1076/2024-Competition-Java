@@ -24,6 +24,7 @@ import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.ModuleConstants;
 import frc.robot.Constants.OIConstants;
+import frc.robot.Constants.ArmConstants;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.Arm;
 import frc.robot.commands.drivetrain.JoystickDrive;
@@ -77,13 +78,17 @@ public class RobotContainer {
         m_robotDrive));
     
    m_arm.setDefaultCommand(new RunCommand(() -> m_arm.setSprocketSpeed(
-    MathUtil.applyDeadband(-m_operatorController.getLeftY() / 3, OIConstants.kOperatorControllerDeadband)
+    MathUtil.applyDeadband(-m_operatorController.getLeftY()*0.3, OIConstants.kOperatorControllerDeadband)
    ), m_arm));
    //Buttons to preset positions
     
-  m_operatorController.a().whileTrue(new RunCommand(()->m_arm.sprocketToPosition(-23)));
-  m_operatorController.y().whileTrue(new RunCommand(()->m_arm.sprocketToPosition(80)));
-  m_operatorController.x().whileTrue(new RunCommand(()->m_arm.sprocketToPosition(0)));
+  m_operatorController.a().whileTrue(new RunCommand(()->m_arm.sprocketToPosition(ArmConstants.SprocketAPosition)));
+
+
+  m_operatorController.y().whileTrue(new RunCommand(()->m_arm.sprocketToPosition(ArmConstants.SprocketYPosition)));
+
+
+  m_operatorController.x().whileTrue(new RunCommand(()->m_arm.sprocketToPosition(ArmConstants.SprocketXPosition)));
  
     // Build an auto chooser. This will use Commands.none() as the default option.
     m_autoChooser = AutoBuilder.buildAutoChooser();
