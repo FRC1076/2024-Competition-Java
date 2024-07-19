@@ -11,6 +11,7 @@ import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
 
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
@@ -22,7 +23,10 @@ import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.VisionConstants;
 import frc.robot.limelight.LimelightHelpers;
+import frc.robot.limelight.LimelightPoseEstimator;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
+import java.util.Optional;
 
 public class DriveSubsystem extends SubsystemBase {
   // Robot swerve modules
@@ -92,6 +96,10 @@ public class DriveSubsystem extends SubsystemBase {
           },
           new Pose2d() //Initial pose
           );
+  
+  // Initializes limelight pose estimators
+  LimelightPoseEstimator limelight1Estimator = new LimelightPoseEstimator(VisionConstants.limelight1,new Transform2d());
+  LimelightPoseEstimator limelight2Estimator = new LimelightPoseEstimator(VisionConstants.limelight2,new Transform2d());
 
   /** Creates a new DriveSubsystem. */
   public DriveSubsystem() {
@@ -127,7 +135,16 @@ public class DriveSubsystem extends SubsystemBase {
           m_rearLeft.getPosition(),
           m_rearRight.getPosition()
         });
-    m_PoseEstimator.addVisionMeasurement(getLimelightPose(VisionConstants.limelight1,true), Timer.getFPGATimestamp());
+    // Add limelight1 measurements to pose estimate
+    Optional<LimelightPoseEstimator.LimelightPose> limelight1Pose = limelight1Estimator.getPose();
+    if(limelight1Pose.isPresent()){
+      m_PoseEstimator.addVisionMeasurement(limelight1Pose.get().getPose(), limelight1Pose.get().getTimestamp());
+    }
+    // Add limelight2 measurements to pose estimate
+    Optional<LimelightPoseEstimator.LimelightPose> limelight2Pose = limelight2Estimator.getPose();
+    if(limelight1Pose.isPresent()){
+      m_PoseEstimator.addVisionMeasurement(limelight2Pose.get().getPose(), limelight2Pose.get().getTimestamp());
+    }
   }
 
   /**
@@ -146,10 +163,6 @@ public class DriveSubsystem extends SubsystemBase {
     */
   public Pose2d getLimelightPose(String limelightName, boolean isBlueTeam) {
     return isBlueTeam ? LimelightHelpers.getBotPose2d_wpiBlue(limelightName): LimelightHelpers.getBotPose2d_wpiRed(limelightName);
-  }
-
-  public Pose2d getLimelightPose(boolean isBlueTeam) {
-    return getLimelightPose(VisionConstants.limelight1,isBlueTeam);
   }
 
   /**
