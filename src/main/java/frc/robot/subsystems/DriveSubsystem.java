@@ -16,8 +16,12 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
+import edu.wpi.first.wpilibj.Timer;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.AutoConstants;
+import frc.robot.Constants.VisionConstants;
+import frc.robot.limelight.LimelightHelpers;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class DriveSubsystem extends SubsystemBase {
@@ -75,6 +79,19 @@ public class DriveSubsystem extends SubsystemBase {
             m_rearLeft.getPosition(),
             m_rearRight.getPosition()
           });
+  // Pose estimator class, tracks pose using odometry, but also uses data from the limelight to correct errors
+  SwerveDrivePoseEstimator m_PoseEstimator = 
+      new SwerveDrivePoseEstimator(
+          DriveConstants.kDriveKinematics,
+          m_gyro.getRotation2d(),
+          new SwerveModulePosition[] {
+            m_frontLeft.getPosition(),
+            m_frontRight.getPosition(),
+            m_rearLeft.getPosition(),
+            m_rearRight.getPosition()
+          },
+          new Pose2d() //Initial pose
+          );
 
   /** Creates a new DriveSubsystem. */
   public DriveSubsystem() {
@@ -101,8 +118,8 @@ public class DriveSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    // Update the odometry in the periodic block
-    m_odometry.update(
+    // Update the PoseEstimator in the periodic block
+    m_PoseEstimator.update(
         m_gyro.getRotation2d(),
         new SwerveModulePosition[] {
           m_frontLeft.getPosition(),
@@ -110,6 +127,7 @@ public class DriveSubsystem extends SubsystemBase {
           m_rearLeft.getPosition(),
           m_rearRight.getPosition()
         });
+    m_PoseEstimator.addVisionMeasurement(getLimelightPose(VisionConstants.limelight1,true), Timer.getFPGATimestamp());
   }
 
   /**
@@ -118,16 +136,29 @@ public class DriveSubsystem extends SubsystemBase {
    * @return The pose.
    */
   public Pose2d getPose() {
-    return m_odometry.getPoseMeters();
+    return m_PoseEstimator.getEstimatedPosition();
   }
 
   /**
-   * Resets the odometry to the specified pose.
+    * Returns the robot's pose, calculated based on data from the Limelight sensors
+    * 
+    * @return The pose.
+    */
+  public Pose2d getLimelightPose(String limelightName, boolean isBlueTeam) {
+    return isBlueTeam ? LimelightHelpers.getBotPose2d_wpiBlue(limelightName): LimelightHelpers.getBotPose2d_wpiRed(limelightName);
+  }
+
+  public Pose2d getLimelightPose(boolean isBlueTeam) {
+    return getLimelightPose(VisionConstants.limelight1,isBlueTeam);
+  }
+
+  /**
+   * Resets the PoseEstimator to the specified pose.
    *
-   * @param pose The pose to which to set the odometry.
+   * @param pose The pose to which to set the PoseEstimator.
    */
   public void resetPose(Pose2d pose) {
-    m_odometry.resetPosition(
+    m_PoseEstimator.resetPosition(
         m_gyro.getRotation2d(),
         new SwerveModulePosition[] {
           m_frontLeft.getPosition(),

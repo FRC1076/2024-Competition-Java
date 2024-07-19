@@ -126,4 +126,10 @@ public final class Constants {
     public static final double kPTranslationController = 5;
     public static final double kPRotationController = 5;
   }
+
+  public static final class VisionConstants{
+    //Placeholder names
+    public static final String limelight1 = "bob";
+    public static final String limelight2 = "joe";
+  }
 }
