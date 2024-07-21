@@ -135,15 +135,19 @@ public final class Constants {
     public static final double kPTranslationController = 5;
     public static final double kPRotationController = 5;
   }
+
   public static final class ArmConstants {
     public static final double kP = 0.03;
-    public static final double kG=0.0275;
-    public static final int SprocketAPosition=-23;
-    public static final int SprocketYPosition=80;
-    public static final int SprocketXPosition=0;
-    public static final int SprocketLeftCAN=6;
-    public static final int SprocketRightCAN=7;
-    public static final boolean SprocketRightInversion=true;
-    public static final int SprocketAbsEncoderChannel=0;
+    public static final double kG = 0.0275;
+    public static final int sprocketAPosition = -23;
+    public static final int sprocketYPosition = 80;
+    public static final int sprocketXPosition = 0;
+    public static final int sprocketIntakePosition = -37;
+    public static final int sprocketLeftCAN = 6;
+    public static final int sprocketRightCAN = 7;
+    public static final boolean sprocketLeftInversion = false;
+    public static final boolean sprocketRightInversion = true;
+    public static final int sprocketAbsEncoderChannel = 0;
+    public static final double joystickScalar = 0.3;
   }
 }
