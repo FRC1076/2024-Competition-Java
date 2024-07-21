@@ -135,9 +135,15 @@ public final class Constants {
     public static final double kPTranslationController = 5;
     public static final double kPRotationController = 5;
   }
-  public static final class armConstants {
-    public static final double controllerGain = 0.03;
-    public static final double feedforwardgain=0.0275;
-    
+  public static final class ArmConstants {
+    public static final double kP = 0.03;
+    public static final double kG=0.0275;
+    public static final int SprocketAPosition=-23;
+    public static final int SprocketYPosition=80;
+    public static final int SprocketXPosition=0;
+    public static final int SprocketLeftCAN=6;
+    public static final int SprocketRightCAN=7;
+    public static final boolean SprocketRightInversion=true;
+    public static final int SprocketAbsEncoderChannel=0;
   }
 }
