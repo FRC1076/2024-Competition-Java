@@ -24,7 +24,9 @@ import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.ModuleConstants;
 import frc.robot.Constants.OIConstants;
+import frc.robot.Constants.ArmConstants;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.Arm;
 import frc.robot.commands.drivetrain.JoystickDrive;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -45,6 +47,8 @@ public class RobotContainer {
   // The robot's subsystems
   private final DriveSubsystem m_robotDrive = new DriveSubsystem();
 
+  private final Arm m_arm = new Arm();
+
   // The auto selected from a dashboard
   private SendableChooser<Command> m_autoChooser;
 
@@ -54,6 +58,7 @@ public class RobotContainer {
   // The driver's controller
   //XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
   CommandXboxController m_driverController= new CommandXboxController(OIConstants.kDriverControllerPort);
+  CommandXboxController m_operatorController = new CommandXboxController(OIConstants.kOperatorControllerPort);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -72,6 +77,19 @@ public class RobotContainer {
         () -> MathUtil.applyDeadband(-m_driverController.getRightX(), OIConstants.kDriverControllerDeadband),
         m_robotDrive));
     
+   m_arm.setDefaultCommand(new RunCommand(() -> m_arm.setSprocketSpeed(
+    MathUtil.applyDeadband(-m_operatorController.getLeftY()*0.3, OIConstants.kOperatorControllerDeadband)
+   ), m_arm));
+   //Buttons to preset positions
+    
+  m_operatorController.a().whileTrue(new RunCommand(()->m_arm.sprocketToPosition(ArmConstants.SprocketAPosition)));
+
+
+  m_operatorController.y().whileTrue(new RunCommand(()->m_arm.sprocketToPosition(ArmConstants.SprocketYPosition)));
+
+
+  m_operatorController.x().whileTrue(new RunCommand(()->m_arm.sprocketToPosition(ArmConstants.SprocketXPosition)));
+ 
     // Build an auto chooser. This will use Commands.none() as the default option.
     m_autoChooser = AutoBuilder.buildAutoChooser();
     // Place the sendable chooser data onto the dashboard
@@ -107,6 +125,9 @@ public class RobotContainer {
         () -> MathUtil.applyDeadband(-m_driverController.getRightX(), OIConstants.kDriverControllerDeadband) * DriveConstants.kSingleClutchRotation,
         m_robotDrive)
     );
+
+
+    
 
     //Zero Gyro (x + left trigger + right trigger)
     m_driverController.x()

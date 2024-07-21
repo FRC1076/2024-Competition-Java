@@ -119,11 +119,26 @@ public final class Constants {
     public static final int kDriverControllerPort = 0;
     public static final double kDriverControllerDeadband = 0.15;
     public static final double kDriverControllerTriggerThreshold = 0.7;
+
+    public static final int kOperatorControllerPort = 1;
+    public static final double kOperatorControllerDeadband = 0.15;
+    public static final double kOperatorControllerTriggerThreshold = 0.7;
   }
 
   public static final class AutoConstants {
     public static final double kMaxSpeedMetersPerSecond = 4.5;
     public static final double kPTranslationController = 5;
     public static final double kPRotationController = 5;
+  }
+  public static final class ArmConstants {
+    public static final double kP = 0.03;
+    public static final double kG=0.0275;
+    public static final int SprocketAPosition=-23;
+    public static final int SprocketYPosition=80;
+    public static final int SprocketXPosition=0;
+    public static final int SprocketLeftCAN=6;
+    public static final int SprocketRightCAN=7;
+    public static final boolean SprocketRightInversion=true;
+    public static final int SprocketAbsEncoderChannel=0;
   }
 }
