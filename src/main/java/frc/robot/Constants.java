@@ -141,4 +141,16 @@ public final class Constants {
     public static final boolean SprocketRightInversion=true;
     public static final int SprocketAbsEncoderChannel=0;
   }
+  public static final class ShooterConstants {
+    public static final int shooterLeftMotorID= 28;
+    public static final int shooterRightMotorID= 8;
+    public static final double shooterLeftSpeed= 0.85;
+    public static final double shooterRightSpeed= 1;
+    public static final boolean shooterLeftInversion = true;
+    public static final boolean shooterRightInversion = false;
+    public static final double shooterLeftReverseSpeed= 0.2;
+    public static final double shooterRighReverseSpeed=0.2;
+    public static final double shooterOpenLoopRampRate = 1;
+    public static final double RPMToPercentConversionFactor = 1 / 5100; //5100 because it is similar to the MAX RPM. Division to ensure that the value will be from -1 to 1
+  }
 }
