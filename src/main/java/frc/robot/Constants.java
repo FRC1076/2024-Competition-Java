@@ -115,6 +115,11 @@ public final class Constants {
     public static final double kaDriveVoltSecondsSquaredPerMeter = 0;
   }
 
+  public static final class IndexerConstants {
+    public static final int kIndexMotorPort = 61;
+    public static final int kBeamBreakPin = 5;
+  }
+
   public static final class IntakeConstants {
     public static final int kIntakeMotorCanID = 5;
     public static final double kIntakeMotorSpeed = 1;
