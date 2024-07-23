@@ -13,8 +13,7 @@ import frc.robot.Constants.ArmConstants;
 public class Arm extends SubsystemBase {
     public final CANSparkMax sprocketLeftMotor;
     public final CANSparkMax sprocketRightMotor;
-    private final SparkPIDController sprocketLeftPIDController;
-    private final SparkPIDController sprocketRightPIDController;
+    
     private final RelativeEncoder sprocketLeftEncoder;
     private final RelativeEncoder sprocketRightEncoder;     //Initialize
     private final DutyCycleEncoder sprocketAbsoluteEncoder;
@@ -28,11 +27,9 @@ public class Arm extends SubsystemBase {
         sprocketRightMotor.setInverted(ArmConstants.sprocketRightInversion);  //Inverts the motor because one motor is on the other side
         sprocketLeftEncoder = sprocketLeftMotor.getEncoder();
         sprocketRightEncoder = sprocketRightMotor.getEncoder();
-        sprocketLeftPIDController = sprocketLeftMotor.getPIDController();
-        sprocketRightPIDController = sprocketRightMotor.getPIDController();
-        sprocketLeftPIDController.setP(ArmConstants.kP);
-        sprocketRightPIDController.setP(ArmConstants.kP); //declare
-        sprocketAbsoluteEncoder = new DutyCycleEncoder(ArmConstants.sprocketAbsEncoderChannel);
+        
+        //declare
+        sprocketAbsoluteEncoder = new DutyCycleEncoder(ArmConstants.SprocketAbsEncoderChannel);
     }
     /*Sets the motor speed the desired value and if the speed input is positive, it checks
      * the angle to make sure that the arm does not go above 90 degrees
