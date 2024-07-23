@@ -33,6 +33,7 @@ import frc.robot.commands.drivetrain.JoystickDrive;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -81,19 +82,10 @@ public class RobotContainer {
         () -> MathUtil.applyDeadband(-m_driverController.getRightX(), OIConstants.kDriverControllerDeadband),
         m_robotDrive));
     
-   m_arm.setDefaultCommand(new RunCommand(() -> m_arm.setSprocketSpeed(
-    MathUtil.applyDeadband(-m_operatorController.getLeftY()*0.3, OIConstants.kOperatorControllerDeadband)
-   ), m_arm));
+    m_arm.setDefaultCommand(new RunCommand(() -> m_arm.setSprocketSpeed(
+        MathUtil.applyDeadband(-m_operatorController.getLeftY(), OIConstants.kOperatorControllerDeadband) * ArmConstants.joystickScalar),
+        m_arm));
 
-   //Buttons to preset positions
-    
-  m_operatorController.a().whileTrue(new RunCommand(()->m_arm.sprocketToPosition(ArmConstants.SprocketAPosition)));
-
-
-  m_operatorController.y().whileTrue(new RunCommand(()->m_arm.sprocketToPosition(ArmConstants.SprocketYPosition)));
-
-
-  m_operatorController.x().whileTrue(new RunCommand(()->m_arm.sprocketToPosition(ArmConstants.SprocketXPosition)));
 
     // Build an auto chooser. This will use Commands.none() as the default option.
     m_autoChooser = AutoBuilder.buildAutoChooser();
@@ -140,10 +132,20 @@ public class RobotContainer {
       .and(m_driverController.rightTrigger(OIConstants.kDriverControllerTriggerThreshold))
       .onTrue(new InstantCommand(() -> m_robotDrive.zeroHeading(), m_robotDrive));
 
+    //Buttons to preset positions for the arm
+    m_operatorController.a().whileTrue(new RunCommand(() -> m_arm.sprocketToPosition(ArmConstants.sprocketAPosition)));
+    m_operatorController.y().whileTrue(new RunCommand(() -> m_arm.sprocketToPosition(ArmConstants.sprocketYPosition)));
+    m_operatorController.x().whileTrue(new RunCommand(() -> m_arm.sprocketToPosition(ArmConstants.sprocketXPosition)));
+
     //Intake Control
-    m_operatorController.leftTrigger(OIConstants.kOperatorControllerTriggerThreshold).onTrue(
-      new InstantCommand(
-        () -> m_intake.setMotorSpeed(IntakeConstants.kIntakeMotorSpeed)
+    m_operatorController.leftTrigger(OIConstants.kOperatorControllerTriggerThreshold).whileTrue(
+      new ParallelCommandGroup(
+        new InstantCommand(
+          () -> m_intake.setMotorSpeed(IntakeConstants.kIntakeMotorSpeed)
+        ),
+        new RunCommand(
+          () -> m_arm.sprocketToPosition(ArmConstants.sprocketIntakePosition)
+        )
       )
     ).onFalse(
       new InstantCommand(

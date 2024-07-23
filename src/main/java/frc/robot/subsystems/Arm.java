@@ -22,36 +22,39 @@ public class Arm extends SubsystemBase {
     PIDController pidController = new PIDController(ArmConstants.kP, 0, 0);
     
     public Arm() {
-        sprocketLeftMotor = new CANSparkMax(ArmConstants.SprocketLeftCAN, CANSparkMax.MotorType.kBrushless);
-        sprocketRightMotor = new CANSparkMax(ArmConstants.SprocketRightCAN, CANSparkMax.MotorType.kBrushless);
-        sprocketRightMotor.setInverted(ArmConstants.SprocketRightInversion);  //Inverts the motor because one motor is on the other side
+        sprocketLeftMotor = new CANSparkMax(ArmConstants.sprocketLeftCAN, CANSparkMax.MotorType.kBrushless);
+        sprocketRightMotor = new CANSparkMax(ArmConstants.sprocketRightCAN, CANSparkMax.MotorType.kBrushless);
+        sprocketLeftMotor.setInverted(ArmConstants.sprocketLeftInversion);
+        sprocketRightMotor.setInverted(ArmConstants.sprocketRightInversion);  //Inverts the motor because one motor is on the other side
         sprocketLeftEncoder = sprocketLeftMotor.getEncoder();
         sprocketRightEncoder = sprocketRightMotor.getEncoder();
         sprocketLeftPIDController = sprocketLeftMotor.getPIDController();
         sprocketRightPIDController = sprocketRightMotor.getPIDController();
         sprocketLeftPIDController.setP(ArmConstants.kP);
         sprocketRightPIDController.setP(ArmConstants.kP); //declare
-        sprocketAbsoluteEncoder = new DutyCycleEncoder(ArmConstants.SprocketAbsEncoderChannel);
+        sprocketAbsoluteEncoder = new DutyCycleEncoder(ArmConstants.sprocketAbsEncoderChannel);
     }
     /*Sets the motor speed the desired value and if the speed input is positive, it checks
      * the angle to make sure that the arm does not go above 90 degrees
      */
     public void setSprocketSpeed(double speed) {
-        double FeedForwardCalculation = sprocketFeedforward.calculate(Math.toRadians(getSprocketAngle()),0.0);
-        if(speed>0){
-        sprocketLimitStop();
+        double feedforwardCalculation = sprocketFeedforward.calculate(Math.toRadians(getSprocketAngle()), 0.0);
+        if(speed > 0){
+            sprocketLimitStop();
         }
-        sprocketLeftMotor.set(speed+FeedForwardCalculation);
-        sprocketRightMotor.set(speed+FeedForwardCalculation);
+        sprocketLeftMotor.set(speed + feedforwardCalculation);
+        sprocketRightMotor.set(speed + feedforwardCalculation);
         
 
     }
+
     /*
      * Returns the current sprocket angle
      */
     public double getSprocketAngle() {
         return (sprocketAbsoluteEncoder.getAbsolutePosition() * 360 + 20)  % 360 - 49.1;
     }
+
     /*
      * Returns the current sprocket speed
      */
@@ -64,12 +67,12 @@ public class Arm extends SubsystemBase {
      * is below -30 degrees, it divides the PID Calculation by 2 to ensure a soft approach
      */
     public void sprocketToPosition(double targetPos){
-        double SprocketPIDCalculations = pidController.calculate(getSprocketAngle(), targetPos);
-        double feedforwardcalculation = sprocketFeedforward.calculate(Math.toRadians(getSprocketAngle()),0.0);
+        double sprocketPIDCalculations = pidController.calculate(getSprocketAngle(), targetPos);
+        double feedforwardCalculation = sprocketFeedforward.calculate(Math.toRadians(getSprocketAngle()), 0.0);
         if(getSprocketAngle() <= -30){
-            SprocketPIDCalculations /= 2;
+            sprocketPIDCalculations /= 2;
         }
-        double output = SprocketPIDCalculations + feedforwardcalculation;
+        double output = sprocketPIDCalculations + feedforwardCalculation;
         sprocketLeftMotor.set(output);
         sprocketRightMotor.set(output);
     
@@ -78,15 +81,15 @@ public class Arm extends SubsystemBase {
     }
 /* Stops the sprocket */
     public void stopSprocket(){
-        double sprocketFeedforwardcalculation = sprocketFeedforward.calculate(Math.toRadians(getSprocketAngle()),0);
-        sprocketLeftMotor.set(sprocketFeedforwardcalculation);
-        sprocketRightMotor.set(sprocketFeedforwardcalculation);
+        double sprocketFeedforwardCalculation = sprocketFeedforward.calculate(Math.toRadians(getSprocketAngle()), 0);
+        sprocketLeftMotor.set(sprocketFeedforwardCalculation);
+        sprocketRightMotor.set(sprocketFeedforwardCalculation);
     }
     /*
      * Ensures that the sprocket does not exceed 90 degrees
      */
     public void sprocketLimitStop(){
-        if (getSprocketAngle()>90){
+        if (getSprocketAngle() > 90){
             stopSprocket();
         }
 
