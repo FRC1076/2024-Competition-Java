@@ -23,12 +23,15 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.ModuleConstants;
+import frc.robot.Constants.IndexerConstants;
 import frc.robot.Constants.IntakeConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.Arm;
+import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Shooter;
 import frc.robot.commands.drivetrain.JoystickDrive;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -38,6 +41,7 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import java.util.List;
 
 /*
@@ -49,10 +53,10 @@ import java.util.List;
 public class RobotContainer {
   // The robot's subsystems
   private final DriveSubsystem m_robotDrive = new DriveSubsystem();
-
   private final Arm m_arm = new Arm();
-  
+  private final Indexer m_indexer = new Indexer();
   private final Intake m_intake = new Intake();
+  private final Shooter m_shooter = new Shooter();
 
   // The auto selected from a dashboard
   private SendableChooser<Command> m_autoChooser;
@@ -64,6 +68,9 @@ public class RobotContainer {
   //XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
   CommandXboxController m_driverController = new CommandXboxController(OIConstants.kDriverControllerPort);
   CommandXboxController m_operatorController = new CommandXboxController(OIConstants.kOperatorControllerPort);
+
+  //Custom triggers
+  private Trigger beamBreakTrigger = new Trigger(() -> m_indexer.getBeamBroken());
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -85,6 +92,8 @@ public class RobotContainer {
     m_arm.setDefaultCommand(new RunCommand(() -> m_arm.setSprocketSpeed(
         MathUtil.applyDeadband(-m_operatorController.getLeftY(), OIConstants.kOperatorControllerDeadband) * ArmConstants.joystickScalar),
         m_arm));
+
+    m_indexer.setDefaultCommand(new RunCommand(() -> m_indexer.setIndexMotor(IndexerConstants.indexSpeed)));
 
 
     // Build an auto chooser. This will use Commands.none() as the default option.
@@ -152,7 +161,23 @@ public class RobotContainer {
         () -> m_intake.setMotorSpeed(0)
       )
     );
-    
+
+    //When the beamBreak is broken and the operator is NOT pressing the right trigger, set index speed to zero.
+    beamBreakTrigger.and(m_operatorController.rightTrigger(OIConstants.kOperatorControllerTriggerThreshold).negate()).whileTrue(
+      new InstantCommand(
+        () -> m_indexer.setIndexMotor(0)
+      )
+    );
+
+    beamBreakTrigger.onTrue(
+      new InstantCommand(
+        () -> m_shooter.shootNote()
+      )
+    ).onFalse(
+      new InstantCommand(
+        () -> m_shooter.stopShooting()
+      )
+    );   
   }
 
   /**

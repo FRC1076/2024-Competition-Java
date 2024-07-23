@@ -29,7 +29,7 @@ public class Arm extends SubsystemBase {
         sprocketRightEncoder = sprocketRightMotor.getEncoder();
         
         //declare
-        sprocketAbsoluteEncoder = new DutyCycleEncoder(ArmConstants.SprocketAbsEncoderChannel);
+        sprocketAbsoluteEncoder = new DutyCycleEncoder(ArmConstants.sprocketAbsEncoderChannel);
     }
     /*Sets the motor speed the desired value and if the speed input is positive, it checks
      * the angle to make sure that the arm does not go above 90 degrees

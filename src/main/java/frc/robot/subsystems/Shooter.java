@@ -18,7 +18,7 @@ public class Shooter extends SubsystemBase{
     PIDController rightShooterPID = new PIDController(0.0003, 0.0001, 0.0001);
 
     
-    public Shooter(){
+    public Shooter() {
         leftShootingMotor = new CANSparkMax(ShooterConstants.shooterLeftMotorID, CANSparkMax.MotorType.kBrushless);
         rightShootingMotor = new CANSparkMax(ShooterConstants.shooterRightMotorID, CANSparkMax.MotorType.kBrushless);
         leftShootingMotor.setInverted(ShooterConstants.shooterLeftInversion);  //Inverts the motor because one motor is on the other side
@@ -33,29 +33,34 @@ public class Shooter extends SubsystemBase{
          //declare
         
     }
-    public double getLeftShooterRPM(){
+    public double getLeftShooterRPM() {
         return leftShooterEncoder.getVelocity();
     }
-    public double getRightShooterRPM(){
+    public double getRightShooterRPM() {
         return rightShooterEncoder.getVelocity();
     }
-    public void setLeftShooterSpeed(double speed){
+    public void setLeftShooterSpeed(double speed) {
         leftShootingMotor.set(speed * ShooterConstants.RPMToPercentConversionFactor + leftShooterPID.calculate(leftShooterEncoder.getVelocity(),speed));
     }
-    public void setRightShooterSpeed(double speed){
+    public void setRightShooterSpeed(double speed) {
         rightShootingMotor.set(speed * ShooterConstants.RPMToPercentConversionFactor + rightShooterPID.calculate(rightShooterEncoder.getVelocity(),speed));
     }
-    public void shootNote(){
+    public void shootNote() {
         setLeftShooterSpeed(4500);
         setRightShooterSpeed(4500);
     }
-    public void shootAmp(){
+    public void shootAmp() {
         setLeftShooterSpeed(2000);
         setRightShooterSpeed(2000);
     }
-    public void shootReverse(){
+    public void shootReverse() {
         setLeftShooterSpeed(ShooterConstants.shooterLeftReverseSpeed);
         setRightShooterSpeed(ShooterConstants.shooterRighReverseSpeed);
+    }
+
+    public void stopShooting() {
+        setLeftShooterSpeed(0);
+        setRightShooterSpeed(0);
     }
     
 
