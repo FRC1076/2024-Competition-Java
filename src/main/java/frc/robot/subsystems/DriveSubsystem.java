@@ -20,6 +20,7 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.wpilibj.Timer;
 import frc.robot.Constants.DriveConstants;
+import frc.robot.Constants;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.VisionConstants;
 import frc.robot.limelight.LimelightHelpers;
@@ -139,11 +140,15 @@ public class DriveSubsystem extends SubsystemBase {
     Optional<LimelightPoseEstimator.LimelightPose> limelight1Pose = limelight1Estimator.getPose();
     if(limelight1Pose.isPresent()){
       m_PoseEstimator.addVisionMeasurement(limelight1Pose.get().getPose(), limelight1Pose.get().getTimestamp());
+      System.out.println(Constants.VisionConstants.limelight1 + " JSON DUMP AT " + limelight1Pose.get().getTimestamp() + ":");
+      System.out.println(LimelightHelpers.getJSONDump(Constants.VisionConstants.limelight1));
     }
     // Add limelight2 measurements to pose estimate
     Optional<LimelightPoseEstimator.LimelightPose> limelight2Pose = limelight2Estimator.getPose();
     if(limelight1Pose.isPresent()){
       m_PoseEstimator.addVisionMeasurement(limelight2Pose.get().getPose(), limelight2Pose.get().getTimestamp());
+      System.out.println(Constants.VisionConstants.limelight2 + " JSON DUMP AT " + limelight2Pose.get().getTimestamp() + ":");
+      System.out.println(LimelightHelpers.getJSONDump(Constants.VisionConstants.limelight2));
     }
   }
 
