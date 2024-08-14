@@ -132,7 +132,6 @@ public final class Constants {
     public static final String limelight1 = "bob";
     public static final String limelight2 = "joe";
     //Other vision constants
-    public static final boolean isBlueTeam = true;
     public static final double targetAreaThreshold = 0.01;
   }
 }

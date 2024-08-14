@@ -6,7 +6,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.wpilibj.Timer;
 import frc.robot.Constants.VisionConstants;
-import frc.robot.limelight.LimelightHelpers;
+import frc.robot.limelight.LimelightHelpers.PoseEstimate;
 
 public class LimelightPoseEstimator {
     private final String limelightName; // name of the limelight
@@ -54,20 +54,21 @@ public class LimelightPoseEstimator {
     /**
      * @return pose2d from limelight
      */
-    private Pose2d getPoseRaw(){
-        return VisionConstants.isBlueTeam ? LimelightHelpers.getBotPose2d_wpiBlue(limelightName) : LimelightHelpers.getBotPose2d_wpiRed(limelightName);
+    private PoseEstimate getPoseRaw(){
+        return LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(limelightName);
     }
 
     /**
      * returns pose from the limelight
      * @return pose, or empty
      */
-    public Optional<LimelightPose> getPose(){
-        Pose2d limelightPose = getPoseRaw();
-        if (limelightPose.equals(new Pose2d()) || LimelightHelpers.getTA(limelightName) < VisionConstants.targetAreaThreshold){
+    public Optional<PoseEstimate> getPose(){
+        PoseEstimate limelightPose = getPoseRaw();
+        if (limelightPose.pose.equals(new Pose2d()) || LimelightHelpers.getTA(limelightName) < VisionConstants.targetAreaThreshold){
             return Optional.empty();
         } else {
-            return Optional.of(new LimelightPose(limelightPose.transformBy(offset),getCaptureTimestamp()));
+            limelightPose.pose = limelightPose.pose.transformBy(offset);
+            return Optional.of(limelightPose);
         }
     }
 
