@@ -156,15 +156,17 @@ public class DriveSubsystem extends SubsystemBase {
         Optional<LimelightHelpers.PoseEstimate> limelight1Pose = limelight1Estimator.getPose();
         if(limelight1Pose.isPresent()){
             m_PoseEstimator.addVisionMeasurement(limelight1Pose.get().pose, limelight1Pose.get().timestampSeconds);
-            System.out.println(Constants.VisionConstants.limelight1 + " JSON DUMP AT " + limelight1Pose.get().timestampSeconds + ":");
-            System.out.println(LimelightHelpers.getJSONDump(Constants.VisionConstants.limelight1));
+            System.out.println(Constants.VisionConstants.limelight1 + " TAG DISTANCE AT " + limelight1Pose.get().timestampSeconds + ":");
+            //System.out.println(LimelightHelpers.getJSONDump(Constants.VisionConstants.limelight1));
+            System.out.println(limelight1Pose.get().avgTagDist);
         }
         // Add limelight2 measurements to pose estimate
         Optional<LimelightHelpers.PoseEstimate> limelight2Pose = limelight2Estimator.getPose();
         if(limelight2Pose.isPresent()){
             m_PoseEstimator.addVisionMeasurement(limelight2Pose.get().pose, limelight2Pose.get().timestampSeconds);
-            System.out.println(Constants.VisionConstants.limelight2 + " JSON DUMP AT " + limelight2Pose.get().timestampSeconds + ":");
-            System.out.println(LimelightHelpers.getJSONDump(Constants.VisionConstants.limelight2));
+            System.out.println(Constants.VisionConstants.limelight2 + " TAG DISTANCE AT " + limelight2Pose.get().timestampSeconds + ":");
+            //System.out.println(LimelightHelpers.getJSONDump(Constants.VisionConstants.limelight2));
+            System.out.println(limelight2Pose.get().avgTagDist);
         }
     }
 
