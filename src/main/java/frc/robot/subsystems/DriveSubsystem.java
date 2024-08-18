@@ -99,7 +99,7 @@ public class DriveSubsystem extends SubsystemBase {
   
     // Initializes limelight pose estimators
     LimelightPoseEstimator limelight1Estimator = new LimelightPoseEstimator(VisionConstants.limelight1,new Transform2d());
-    LimelightPoseEstimator limelight2Estimator = new LimelightPoseEstimator(VisionConstants.limelight2,new Transform2d());
+    //LimelightPoseEstimator limelight2Estimator = new LimelightPoseEstimator(VisionConstants.limelight2,new Transform2d());
 
     /** Creates a new DriveSubsystem. */
     public DriveSubsystem() {
@@ -135,6 +135,7 @@ public class DriveSubsystem extends SubsystemBase {
             0, 
             m_gyro.getRoll(),
             0);
+        /* 
         LimelightHelpers.SetRobotOrientation(
             Constants.VisionConstants.limelight2, 
             m_gyro.getAngle(), 
@@ -143,6 +144,7 @@ public class DriveSubsystem extends SubsystemBase {
             0, 
             m_gyro.getRoll(),
             0);
+        */
         // Update the PoseEstimator in the periodic block
         m_PoseEstimator.update(
             m_gyro.getRotation2d(),
@@ -161,6 +163,7 @@ public class DriveSubsystem extends SubsystemBase {
             System.out.println(limelight1Pose.get().avgTagDist);
         }
         // Add limelight2 measurements to pose estimate
+        /*
         Optional<LimelightHelpers.PoseEstimate> limelight2Pose = limelight2Estimator.getPose();
         if(limelight2Pose.isPresent()){
             m_PoseEstimator.addVisionMeasurement(limelight2Pose.get().pose, limelight2Pose.get().timestampSeconds);
@@ -168,6 +171,7 @@ public class DriveSubsystem extends SubsystemBase {
             //System.out.println(LimelightHelpers.getJSONDump(Constants.VisionConstants.limelight2));
             System.out.println(limelight2Pose.get().avgTagDist);
         }
+        */
     }
 
     /**

@@ -7,7 +7,6 @@ package frc.robot;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
-import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.TimedRobot;
 
@@ -129,8 +128,8 @@ public final class Constants {
 
   public static final class VisionConstants{
     //Placeholder names for limelights
-    public static final String limelight1 = "bob";
-    public static final String limelight2 = "joe";
+    public static final String limelight1 = "limelight";
+    public static final String limelight2 = "arnold";
     //Other vision constants
     public static final double targetAreaThreshold = 0.01;
   }
