@@ -93,7 +93,7 @@ public class RobotContainer {
         MathUtil.applyDeadband(-m_operatorController.getLeftY(), OIConstants.kOperatorControllerDeadband) * ArmConstants.joystickScalar),
         m_arm));
 
-    m_indexer.setDefaultCommand(new RunCommand(() -> m_indexer.setIndexMotor(IndexerConstants.indexSpeed)));
+    m_indexer.setDefaultCommand(new RunCommand(() -> m_indexer.setIndexMotor(IndexerConstants.indexSpeed), m_indexer));
 
 
     // Build an auto chooser. This will use Commands.none() as the default option.
@@ -142,40 +142,46 @@ public class RobotContainer {
       .onTrue(new InstantCommand(() -> m_robotDrive.zeroHeading(), m_robotDrive));
 
     //Buttons to preset positions for the arm
-    m_operatorController.a().whileTrue(new RunCommand(() -> m_arm.sprocketToPosition(ArmConstants.sprocketAPosition)));
-    m_operatorController.y().whileTrue(new RunCommand(() -> m_arm.sprocketToPosition(ArmConstants.sprocketYPosition)));
-    m_operatorController.x().whileTrue(new RunCommand(() -> m_arm.sprocketToPosition(ArmConstants.sprocketXPosition)));
+    m_operatorController.a().whileTrue(new RunCommand(() -> m_arm.sprocketToPosition(ArmConstants.sprocketAPosition), m_arm));
+    m_operatorController.y().whileTrue(new RunCommand(() -> m_arm.sprocketToPosition(ArmConstants.sprocketYPosition), m_arm));
+    m_operatorController.x().whileTrue(new RunCommand(() -> m_arm.sprocketToPosition(ArmConstants.sprocketXPosition), m_arm));
 
     //Intake Control
     m_operatorController.leftTrigger(OIConstants.kOperatorControllerTriggerThreshold).whileTrue(
       new ParallelCommandGroup(
         new InstantCommand(
-          () -> m_intake.setMotorSpeed(IntakeConstants.kIntakeMotorSpeed)
+          () -> m_intake.setMotorSpeed(IntakeConstants.kIntakeMotorSpeed),
+          m_intake
         ),
         new RunCommand(
-          () -> m_arm.sprocketToPosition(ArmConstants.sprocketIntakePosition)
+          () -> m_arm.sprocketToPosition(ArmConstants.sprocketIntakePosition),
+          m_arm
         )
       )
     ).onFalse(
       new InstantCommand(
-        () -> m_intake.setMotorSpeed(0)
+        () -> m_intake.setMotorSpeed(0),
+        m_intake
       )
     );
 
     //When the beamBreak is broken and the operator is NOT pressing the right trigger, set index speed to zero.
     beamBreakTrigger.and(m_operatorController.rightTrigger(OIConstants.kOperatorControllerTriggerThreshold).negate()).whileTrue(
-      new InstantCommand(
-        () -> m_indexer.setIndexMotor(0)
+      new RunCommand(
+        () -> m_indexer.setIndexMotor(0),
+        m_indexer
       )
     );
 
-    beamBreakTrigger.onTrue(
-      new InstantCommand(
-        () -> m_shooter.shootNote()
+    beamBreakTrigger.whileTrue(
+      new RunCommand(
+        () -> m_shooter.shootNote(),
+        m_shooter
       )
-    ).onFalse(
-      new InstantCommand(
-        () -> m_shooter.stopShooting()
+    ).whileFalse(
+      new RunCommand(
+        () -> m_shooter.stopShooting(),
+        m_shooter
       )
     );   
   }

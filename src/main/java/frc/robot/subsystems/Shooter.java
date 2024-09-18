@@ -40,10 +40,12 @@ public class Shooter extends SubsystemBase{
         return rightShooterEncoder.getVelocity();
     }
     public void setLeftShooterSpeed(double speed) {
-        leftShootingMotor.set(speed * ShooterConstants.RPMToPercentConversionFactor + leftShooterPID.calculate(leftShooterEncoder.getVelocity(),speed));
+        // leftShootingMotor.set(speed * ShooterConstants.RPMToPercentConversionFactor + leftShooterPID.calculate(leftShooterEncoder.getVelocity(),speed));
+        leftShootingMotor.set(speed * ShooterConstants.RPMToPercentConversionFactor);
     }
     public void setRightShooterSpeed(double speed) {
-        rightShootingMotor.set(speed * ShooterConstants.RPMToPercentConversionFactor + rightShooterPID.calculate(rightShooterEncoder.getVelocity(),speed));
+        // rightShootingMotor.set(speed * ShooterConstants.RPMToPercentConversionFactor + rightShooterPID.calculate(rightShooterEncoder.getVelocity(),speed));
+        rightShootingMotor.set(speed * ShooterConstants.RPMToPercentConversionFactor);
     }
     public void shootNote() {
         setLeftShooterSpeed(4500);
@@ -55,7 +57,7 @@ public class Shooter extends SubsystemBase{
     }
     public void shootReverse() {
         setLeftShooterSpeed(ShooterConstants.shooterLeftReverseSpeed);
-        setRightShooterSpeed(ShooterConstants.shooterRighReverseSpeed);
+        setRightShooterSpeed(ShooterConstants.shooterRightReverseSpeed);
     }
 
     public void stopShooting() {

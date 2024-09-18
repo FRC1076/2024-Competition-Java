@@ -33,7 +33,7 @@ public class Indexer extends SubsystemBase {
     // This method will be called once per scheduler run
     @Override
     public void periodic() {
-        
+
     }
 
     // Put methods for controlling this subsystem here. Call these from Commands.

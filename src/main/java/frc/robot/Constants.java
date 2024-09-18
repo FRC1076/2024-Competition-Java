@@ -164,8 +164,8 @@ public final class Constants {
     public static final boolean shooterLeftInversion = true;
     public static final boolean shooterRightInversion = false;
     public static final double shooterLeftReverseSpeed= 0.2;
-    public static final double shooterRighReverseSpeed=0.2;
+    public static final double shooterRightReverseSpeed=0.2;
     public static final double shooterOpenLoopRampRate = 1;
-    public static final double RPMToPercentConversionFactor = 1 / 5100; //5100 because it is similar to the MAX RPM. Division to ensure that the value will be from -1 to 1
+    public static final double RPMToPercentConversionFactor = 1.0 / 5100.0; //5100 because it is similar to the MAX RPM. Division to ensure that the value will be from -1 to 1
   }
 }
