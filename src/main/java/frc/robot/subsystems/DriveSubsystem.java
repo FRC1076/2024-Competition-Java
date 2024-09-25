@@ -25,8 +25,8 @@ import frc.robot.Constants;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.VisionConstants;
-import frc.robot.limelight.LimelightHelpers;
-import frc.robot.limelight.LimelightPoseEstimator;
+import frc.robot.utils.limelight.LimelightHelpers;
+import frc.robot.utils.limelight.LimelightPoseEstimator;
 
 public class DriveSubsystem extends SubsystemBase {
     // Robot swerve modules
@@ -72,17 +72,6 @@ public class DriveSubsystem extends SubsystemBase {
 
     // The gyro sensor
     private final AHRS m_gyro = new AHRS();
-    // Odometry class for tracking robot pose
-    SwerveDriveOdometry m_odometry =
-        new SwerveDriveOdometry(
-            DriveConstants.kDriveKinematics,
-            m_gyro.getRotation2d(),
-            new SwerveModulePosition[] {
-                m_frontLeft.getPosition(),
-                m_frontRight.getPosition(),
-                m_rearLeft.getPosition(),
-                m_rearRight.getPosition()
-            });
     // Pose estimator class, tracks pose using odometry, but also uses data from the limelight to correct errors
     SwerveDrivePoseEstimator m_PoseEstimator = 
         new SwerveDrivePoseEstimator(

@@ -1,4 +1,4 @@
-package frc.robot.limelight;
+package frc.robot.utils.limelight;
 
 import java.util.Optional;
 
@@ -6,7 +6,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.wpilibj.Timer;
 import frc.robot.Constants.VisionConstants;
-import frc.robot.limelight.LimelightHelpers.PoseEstimate;
+import frc.robot.utils.limelight.LimelightHelpers.PoseEstimate;
 
 public class LimelightPoseEstimator {
     private final String limelightName; // name of the limelight

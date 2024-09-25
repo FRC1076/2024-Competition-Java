@@ -1,0 +1,4 @@
+This is the Coral folder. BeBop's note detection model runs on an Edge TPU, which
+(rather inconveniently) does not have a native Java API. However, it does have a C++
+API, so all of the icky, gross C++ code needed to interact with the Edge TPU will live
+here, separated from the Java code
