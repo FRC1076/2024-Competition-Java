@@ -7,7 +7,6 @@ package frc.robot;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
-import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.TimedRobot;
 
@@ -145,5 +144,10 @@ public final class Constants {
     public static final int SprocketRightCAN=7;
     public static final boolean SprocketRightInversion=true;
     public static final int SprocketAbsEncoderChannel=0;
+  }
+
+  public static final class Akit {
+    /**0 = REAL ROBOT, 1 = SIMULATION, 2 = REPLAY LOG */
+    public static final int currentMode = 0;
   }
 }
